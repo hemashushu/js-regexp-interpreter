@@ -1,0 +1,20 @@
+{
+    "name": "js-regex",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "node ./test/test-all.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/hemashushu/js-regex.git"
+    },
+    "author": "Hemashushu <hippospark@gmail.com>",
+    "license": "MPL-2.0",
+    "bugs": {
+        "url": "https://github.com/hemashushu/js-regex/issues"
+    },
+    "homepage": "https://github.com/hemashushu/js-regex#readme"
+}
