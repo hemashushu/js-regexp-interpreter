@@ -9,10 +9,12 @@
 import { Expression } from './expression.js';
 
 class GroupExp extends Expression {
-    constructor(/*index, */ exp) {
+    constructor(exp, number, name, capturing = true) {
         super();
-        /* this.index = index; */
         this.exp = exp;
+        this.number = number; // 分组的索引
+        this.name = name; // 分组的名称 `(?<name>...)`
+        this.capturing = capturing; // 表示是否捕获 `(?:...)`
     }
 
     toString() {

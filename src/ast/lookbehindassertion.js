@@ -6,17 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-/**
- * 字符或者字符集
- */
-class Symbol {
+import { Assertion } from "./assertion.js";
 
-    /**
-     * 返回正则表达式的文本
-     */
-    toString() {
-        throw new Error('Not implemented.');
+/**
+ * 指定开头部分需要匹配
+ * 如 `(?<=fo)od`，`(?<!fo)od`
+ */
+class LookBehindAssertion extends Assertion {
+    constructor(negative, exp) {
+        super('lookbehind');
+        this.negative = negative;
+        this.exp = exp;
     }
 }
 
-export { Symbol };
+export { LookBehindAssertion };

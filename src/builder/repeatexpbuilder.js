@@ -12,13 +12,13 @@ import {
     RangeQuantifier,
     OneOrMoreQuantifier,
     OneOrZeroQuantifier,
-    ZeroOrMoreQuantifier
+    ZeroOrMoreQuantifier,
+    ManyTimesQuantifier,
+    ManyTimesOrMoreQuantifier
 } from '../ast/index.js';
 
 import { GroupExpBuilder } from './groupexpbuilder.js';
 import { AbstractSingleElementExpBuilder } from './abstractsingleelementexpbuilder.js';
-import { SeqExpBuilder } from './seqexpbuilder.js';
-import { OrExpBuilder } from './orexpbuilder.js';
 
 class RepeatExpBuilder extends AbstractSingleElementExpBuilder {
 
@@ -33,23 +33,33 @@ class RepeatExpBuilder extends AbstractSingleElementExpBuilder {
         });
     }
 
-    oneOrMore() {
-        this.quantifier = new OneOrMoreQuantifier();
+    oneOrMore(greedy = true) {
+        this.quantifier = new OneOrMoreQuantifier(greedy);
         return this;
     }
 
-    oneOrZero() {
-        this.quantifier = new OneOrZeroQuantifier();
+    oneOrZero(greedy = true) {
+        this.quantifier = new OneOrZeroQuantifier(greedy);
         return this;
     }
 
-    zeroOrMore() {
-        this.quantifier = new ZeroOrMoreQuantifier();
+    zeroOrMore(greedy = true) {
+        this.quantifier = new ZeroOrMoreQuantifier(greedy);
         return this;
     }
 
-    range(from, to) {
-        this.quantifier = new RangeQuantifier(from, to);
+    range(from, to, greedy = true) {
+        this.quantifier = new RangeQuantifier(from, to, greedy);
+        return this;
+    }
+
+    manyTimes(times){
+        this.quantifier = new ManyTimesQuantifier(times);
+        return this;
+    }
+
+    manyTimesOrMore(times, greedy) {
+        this.quantifier = new ManyTimesOrMoreQuantifier(times, greedy);
         return this;
     }
 

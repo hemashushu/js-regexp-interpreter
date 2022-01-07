@@ -40,7 +40,7 @@ class AbstractSingleElementExpBuilder {
 
     metaChar(char) {
         if (!MetaChars.includes(char)) {
-            throw new Error(`Invalid meta char "${char}"`);
+            throw new Error(`Invalid meta char "${char}".`);
         }
         this.element = new MetaChar(char);
         return this;
@@ -51,8 +51,8 @@ class AbstractSingleElementExpBuilder {
         return this;
     }
 
-    charSet() {
-        return new CharSetBuilder(this, (charSet) => {
+    charSet(negative = false) {
+        return new CharSetBuilder(negative, this, (charSet) => {
             this.element = charSet;
         });
     }

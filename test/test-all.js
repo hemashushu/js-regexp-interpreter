@@ -7,8 +7,11 @@
  */
 
 import { testBuilder } from './test-builder.js';
+import { testTransformer } from './test-transformer.js';
 
 (() => {
     testBuilder();
+    testTransformer();
+
     console.log('All passed.');
 })();

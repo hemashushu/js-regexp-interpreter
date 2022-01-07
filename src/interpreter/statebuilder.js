@@ -6,38 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { Symbol } from './symbol.js';
-import { Expression } from './expression.js';
-
-import { CharSet } from './charset.js';
-import { Char } from './char.js';
-
-import { MetaChar, MetaChars } from './metachar.js';
-import { CodePointChar } from './codepointchar.js';
-
-import { SimpleChar } from './simplechar.js';
-import { EscapedChar, EntityChars } from './escapedchar.js';
-import { UnicodeChar } from './unicodechar.js';
-
-import { AlternativeExp } from './alternativeexp.js';
-import { DisjunctionExp } from './disjunctionexp.js';
-import { GroupExp } from './groupexp.js';
-import { RepetitionExp } from './repetitionexp.js';
-
-import {
-    Quantifier,
-    RangeQuantifier,
-    OneOrMoreQuantifier,
-    OneOrZeroQuantifier,
-    ZeroOrMoreQuantifier,
-    ManyTimesQuantifier,
-    ManyTimesOrMoreQuantifier
-} from './quantifier.js';
-
-import { CharRange } from './charrange.js';
-
-// 继承关系
-//
 // Symbol
 //   |-- Char
 //   |     |-- CodePointChar
@@ -63,7 +31,7 @@ import { CharRange } from './charrange.js';
 //   |-- ManyTimesOrMoreQuantifier
 //   \-- ZeroOrMoreQuantifier
 
-export {
+import {
     Symbol,
 
     Char,
@@ -92,6 +60,30 @@ export {
     OneOrMoreQuantifier,
     OneOrZeroQuantifier,
     ZeroOrMoreQuantifier,
-    ManyTimesQuantifier,
-    ManyTimesOrMoreQuantifier
-};
+} from '../src/ast/index.js';
+
+import { State } from './state.js';
+import { Transition } from './transition.js';
+
+class StateBuilder {
+    constructor() {
+        this.count = 0
+    }
+
+    generateStateObject(accept) {
+        let idx = this.count;
+        let state = new State(idx, accept);
+        return state;
+    }
+
+    /**
+     *
+     * @param {*} exp AST 对象
+     */
+    build(exp) {
+        //if (exp instanceof )
+    }
+
+}
+
+export { StateBuilder };

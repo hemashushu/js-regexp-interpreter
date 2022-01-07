@@ -7,7 +7,6 @@
  */
 
 import { Symbol } from './symbol.js';
-import { CharRange } from './charrange.js';
 
 /**
  * 字符集
@@ -27,7 +26,9 @@ class CharSet extends Symbol {
             ss.push(c.toString())
         }
 
-        return '[' + ss.join('') + ']';
+        return '[' +
+            (this.negative ? '^' : '') +
+            ss.join('') + ']';
     }
 
     includes(codePoint) {

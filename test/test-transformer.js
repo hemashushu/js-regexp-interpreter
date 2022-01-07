@@ -6,13 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-class Expression {
-    /**
-     * 返回正则表达式的文本
-     */
-    toString() {
-        throw new Error('Not implemented.');
-    }
+import { Transformer } from '../src/transform/index.js'
+
+function testSimpleChar() {
+
 }
 
-export { Expression };
+function testTransformer() {
+    console.log('testTransformer() passed.');
+}
+
+export { testTransformer };

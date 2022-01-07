@@ -6,13 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-class Expression {
-    /**
-     * 返回正则表达式的文本
-     */
-    toString() {
-        throw new Error('Not implemented.');
+import { Expression } from './expression.js';
+
+/**
+ * 比如 \b \B ^ $
+ */
+class Assertion extends Expression {
+    constructor(type) {
+        this.type = type;
     }
 }
 
-export { Expression };
+export { Assertion };

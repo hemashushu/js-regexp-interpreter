@@ -40,7 +40,7 @@ class AbstractMultiElementExpBuilder {
 
     addMetaChar(char) {
         if (!MetaChars.includes(char)) {
-            throw new Error(`Invalid meta char "${char}"`);
+            throw new Error(`Invalid meta char "${char}".`);
         }
         let c = new MetaChar(char);
         this.elements.push(c);
@@ -53,8 +53,8 @@ class AbstractMultiElementExpBuilder {
         return this;
     }
 
-    addCharSet() {
-        return new CharSetBuilder(this, (charSet) => {
+    addCharSet(negative = false) {
+        return new CharSetBuilder(negative, this, (charSet) => {
             this.elements.push(charSet);
         });
     }

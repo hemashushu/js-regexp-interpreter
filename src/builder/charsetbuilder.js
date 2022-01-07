@@ -20,11 +20,12 @@ import {
 import { CharRangeBuilder } from './charrangebuilder.js';
 
 class CharSetBuilder {
-    constructor(parent, receiveFunc) {
+    constructor(negative = false, parent, receiveFunc) {
         this.parent = parent;
         this.receiveFunc = receiveFunc;
 
         this.elements = [];
+        this.negative = negative; // 字符集 "非"
     }
 
     addChar(char) {
@@ -41,7 +42,7 @@ class CharSetBuilder {
 
     addMetaChar(char) {
         if (!MetaChars.includes(char)) {
-            throw new Error(`Invalid meta char "${char}"`);
+            throw new Error(`Invalid meta char "${char}".`);
         }
         let c = new MetaChar(char);
         this.elements.push(c);
@@ -61,7 +62,7 @@ class CharSetBuilder {
     }
 
     build() {
-        let charSet = new CharSet(this.elements, false);
+        let charSet = new CharSet(this.elements, this.negative);
 
         if (this.parent === undefined) {
             return charSet;

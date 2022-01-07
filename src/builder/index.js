@@ -47,7 +47,7 @@ class Builder {
      */
     static metaChar(char) {
         if (!MetaChars.includes(char)) {
-            throw new Error(`Invalid meta char "${char}"`);
+            throw new Error(`Invalid meta char "${char}".`);
         }
         return new MetaChar(char);
     }
@@ -61,8 +61,8 @@ class Builder {
         return new UnicodeChar(codePointInt);
     }
 
-    static charSet() {
-        return new CharSetBuilder();
+    static charSet(negative = false) {
+        return new CharSetBuilder(negative);
     }
 
     static seqExp() {

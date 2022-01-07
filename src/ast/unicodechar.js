@@ -21,7 +21,7 @@ class UnicodeChar extends CodePointChar {
     }
 
     toString() {
-        return '\\u{' + this.codePoint + '}';
+        return '\\u{' + Number(this.codePoint).toString(16) + '}';
     }
 }
 

@@ -37,9 +37,11 @@ import {
     OneOrMoreQuantifier,
     OneOrZeroQuantifier,
     ZeroOrMoreQuantifier,
+    ManyTimesQuantifier,
+    ManyTimesOrMoreQuantifier
 } from '../src/ast/index.js';
 
-import { Builder } from '../index.js';
+import { Builder } from '../src/builder/index.js';
 
 function testChar() {
     // SimpleChar
@@ -69,13 +71,13 @@ function testUnicodeChar() {
     assert.deepEqual(e1, new UnicodeChar(25991));
     assert.equal(e1.value, '文');
     assert.equal(e1.codePoint, 25991);
-    assert.equal(e1.toString(), '\\u{25991}');
+    assert.equal(e1.toString(), '\\u{6587}');
 
     let e2 = Builder.unicodeChar(10084);
     assert.deepEqual(e2, new UnicodeChar(10084));
     assert.equal(e2.value, '❤');
     assert.equal(e2.codePoint, 10084);
-    assert.equal(e2.toString(), '\\u{10084}');
+    assert.equal(e2.toString(), '\\u{2764}');
 }
 
 function testCharSet() {
@@ -92,11 +94,13 @@ function testCharSet() {
 
     assert.equal(e1.toString(), '[abc]');
 
+    // 字符范围
+
     let e2 = Builder.charSet()
         .addRange()
-        .fromChar('0')
-        .toChar('9')
-        .build()
+            .fromChar('0')
+            .toChar('9')
+            .build()
         .build();
 
     assert.deepEqual(e2, new CharSet([
@@ -108,19 +112,36 @@ function testCharSet() {
 
     assert.equal(e2.toString(), '[0-9]');
 
+    // 单字符与字符范围混合
+
     let e3 = Builder.charSet()
         .addChar('+')
         .addRange()
-        .fromChar('0')
-        .toChar('9')
-        .build()
+            .fromChar('0')
+            .toChar('9')
+            .build()
         .addRange()
-        .fromChar('A')
-        .toChar('F')
-        .build()
+            .fromChar('A')
+            .toChar('F')
+            .build()
         .build();
 
     assert.equal(e3.toString(), '[\\+0-9A-F]');
+
+    // "非" 字符集
+
+    let e4 = Builder.charSet(true)
+        .addChar('a')
+        .addChar('b')
+        .build();
+
+
+    assert.deepEqual(e4, new CharSet([
+        new SimpleChar('a'),
+        new SimpleChar('b')
+    ], true));
+
+    assert.equal(e4.toString(), '[^ab]');
 }
 
 function testSeqExp() {
@@ -151,17 +172,17 @@ function testSeqExp() {
 
     assert.equal(e2.toString(), '你好');
 
-    // test mix char set
+    // 单字符和范围字符混合
 
     let e3 = Builder.seqExp()
         .addChar('0')
         .addChar('x')
         .addCharSet()
-        .addRange()
-        .fromChar('a')
-        .toChar('f')
-        .build()
-        .build()
+            .addRange()
+                .fromChar('a')
+                .toChar('f')
+                .build()
+            .build()
         .build();
 
     assert.deepEqual(e3, new AlternativeExp([
@@ -191,16 +212,16 @@ function testOrExp() {
 
     assert.equal(e1.toString(), 'a|b');
 
-    // test mix char set
+    // 单字符和范围字符混合
 
     let e2 = Builder.orExp()
         .addChar('a')
-        .addCharSet()
-        .addRange()
-        .fromChar('0')
-        .toChar('9')
-        .build()
-        .build()
+            .addCharSet()
+                .addRange()
+                    .fromChar('0')
+                    .toChar('9')
+                    .build()
+                .build()
         .build();
 
     assert.deepEqual(e2, new DisjunctionExp([
@@ -269,18 +290,44 @@ function testRepeatExp() {
 
     assert.equal(e4.toString(), 'a{2,4}');
 
-    // test mix char set
+    // A{m,}
     let e5 = Builder.repeatExp()
-        .charSet()
-        .addRange()
-        .fromChar('a')
-        .toChar('z')
-        .build()
-        .build()
-        .oneOrMore()
+        .char('a')
+        .manyTimesOrMore(5)
         .build();
 
     assert.deepEqual(e5, new RepetitionExp(
+        new SimpleChar('a'),
+        new ManyTimesOrMoreQuantifier(5)
+    ));
+
+    assert.equal(e5.toString(), 'a{5,}');
+
+    // A{m}
+    let e6 = Builder.repeatExp()
+        .char('a')
+        .manyTimes(5)
+        .build();
+
+    assert.deepEqual(e6, new RepetitionExp(
+        new SimpleChar('a'),
+        new ManyTimesQuantifier(5)
+    ));
+
+    assert.equal(e6.toString(), 'a{5}');
+
+    // 单字符和范围字符混合
+    let e7 = Builder.repeatExp()
+        .charSet()
+            .addRange()
+                .fromChar('a')
+                .toChar('z')
+                .build()
+            .build()
+        .oneOrMore()
+        .build();
+
+    assert.deepEqual(e7, new RepetitionExp(
         new CharSet([
             new CharRange(
                 new SimpleChar('a'),
@@ -290,7 +337,21 @@ function testRepeatExp() {
         new OneOrMoreQuantifier()
     ));
 
-    assert.equal(e5.toString(), '[a-z]+');
+    assert.equal(e7.toString(), '[a-z]+');
+
+    // 设定非贪婪模式
+    let e8 = Builder.repeatExp()
+        .char('a')
+        .oneOrMore(false)
+        .build();
+
+    assert.deepEqual(e8, new RepetitionExp(
+        new SimpleChar('a'),
+        new OneOrMoreQuantifier(false)
+    ));
+
+    assert.equal(e8.toString(), 'a+?');
+
 }
 
 function testGroupExp() {

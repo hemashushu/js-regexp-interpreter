@@ -6,13 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-class Expression {
-    /**
-     * 返回正则表达式的文本
-     */
+class Transition {
+    constructor(symbol, states = []) {
+        this.symbol = symbol;
+        this.states = states;
+    }
+
     toString() {
-        throw new Error('Not implemented.');
+        return this.symbol.toString();
     }
 }
 
-export { Expression };
+export { Transition };

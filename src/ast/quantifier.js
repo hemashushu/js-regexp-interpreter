@@ -8,17 +8,22 @@
 
 class Quantifier {
     constructor(greedy = true) {
-        this.greedy = greedy; // 是否为贪婪模式
+        this.greedy = greedy; // 是否为贪婪模式，默认为 True
     }
 
     toString() {
-        //
+        throw new Error('Not implemented.');
     }
 }
 
 class RangeQuantifier extends Quantifier {
     constructor(from, to, greedy = true) {
         super(greedy);
+
+        if (to < from) {
+            throw new Error('Quantifier range error.');
+        }
+
         this.from = from;
         this.to = to;
     }
@@ -65,4 +70,34 @@ class ZeroOrMoreQuantifier extends Quantifier {
     }
 }
 
-export { Quantifier, RangeQuantifier, OneOrMoreQuantifier, OneOrZeroQuantifier, ZeroOrMoreQuantifier };
+class ManyTimesQuantifier extends Quantifier {
+    constructor(times) {
+        super(false);
+        this.times = times;
+    }
+
+    toString() {
+        return '{' + this.times + '}';
+    }
+}
+
+class ManyTimesOrMoreQuantifier extends Quantifier {
+    constructor(times, greedy = true) {
+        super(greedy);
+        this.times = times;
+    }
+
+    toString() {
+        return '{' + this.times + ',}';
+    }
+}
+
+export {
+    Quantifier,
+    RangeQuantifier,
+    OneOrMoreQuantifier,
+    OneOrZeroQuantifier,
+    ZeroOrMoreQuantifier,
+    ManyTimesQuantifier,
+    ManyTimesOrMoreQuantifier
+};
