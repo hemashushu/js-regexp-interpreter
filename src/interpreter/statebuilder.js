@@ -10,7 +10,6 @@
 //   |-- Char
 //   |     |-- CodePointChar
 //   |     |     |-- SimpleChar
-//   |     |     |-- EscapedChar
 //   |     |     \-- UnicodeChar
 //   |     |
 //   |     \--  MetaChar
@@ -37,7 +36,6 @@ import {
     Char,
     CodePointChar,
     SimpleChar,
-    EscapedChar,
     UnicodeChar,
 
     MetaChar,

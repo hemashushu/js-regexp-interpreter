@@ -8,11 +8,7 @@
 
 import {
     CharRange,
-
-    EscapedChar,
     SimpleChar,
-
-    EntityChars
 } from '../ast/index.js';
 
 class CharRangeBuilder {
@@ -27,13 +23,7 @@ class CharRangeBuilder {
      * @returns
      */
     fromChar(char) {
-        let c;
-        if (EntityChars.includes(char)) {
-            c = new EscapedChar(char);
-        } else {
-            c = new SimpleChar(char);
-        }
-
+        let c = new SimpleChar(char);
         this.startChar = c;
         return this;
     }
@@ -44,13 +34,7 @@ class CharRangeBuilder {
      * @returns
      */
     toChar(char) {
-        let c;
-        if (EntityChars.includes(char)) {
-            c = new EscapedChar(char);
-        } else {
-            c = new SimpleChar(char);
-        }
-
+        let c = new SimpleChar(char);
         this.toChar = c;
         return this;
     }

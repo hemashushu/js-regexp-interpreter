@@ -7,6 +7,7 @@
  */
 
 import { Symbol } from './symbol.js';
+import { SimpleChar } from './simplechar.js';
 
 /**
  * 字符集
@@ -20,10 +21,30 @@ class CharSet extends Symbol {
         this.negative = negative; // 表示 [^...]
     }
 
+    /**
+     * 在字符集里，特殊符号（正则实体符号）只有 `]`, `\`, 以及不在
+     * 头尾的 `-` 符号才需要编码。
+     *
+     * @returns
+     */
     toString() {
         let ss = [];
-        for (const c of this.chars) {
-            ss.push(c.toString())
+        for (let idx = 0; idx < this.chars.length; idx++) {
+            let char = this.chars[idx];
+            if (char instanceof SimpleChar) {
+                let value = char.value;
+                if (
+                    value === ']' ||
+                    value === '\\' ||
+                    (value === '-' && (idx >= 0 && idx < this.chars.length - 1))) {
+                    ss.push('\\' + value);
+                } else {
+                    ss.push(value);
+                }
+
+            } else {
+                ss.push(char.toString())
+            }
         }
 
         return '[' +
@@ -32,13 +53,15 @@ class CharSet extends Symbol {
     }
 
     includes(codePoint) {
-        for(let s of this.chars) {
-            if (!s.includes(codePoint)) {
-                return false;
+        let found = false;
+        for (let s of this.chars) {
+            if (s.includes(codePoint)) {
+                found = true;
+                break;
             }
         }
 
-        return true;
+        return this.negative ? !found : found;
     }
 }
 

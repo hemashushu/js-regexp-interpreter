@@ -7,14 +7,10 @@
  */
 
 import {
-    EscapedChar,
     SimpleChar,
     MetaChar,
     UnicodeChar,
     CharSet,
-
-    EntityChars,
-    MetaChars
 } from '../ast/index.js';
 
 import { CharRangeBuilder } from './charrangebuilder.js';
@@ -29,21 +25,12 @@ class CharSetBuilder {
     }
 
     addChar(char) {
-        let c;
-        if (EntityChars.includes(char)) {
-            c = new EscapedChar(char);
-        } else {
-            c = new SimpleChar(char);
-        }
-
+        let c = new SimpleChar(char);
         this.elements.push(c);
         return this;
     }
 
     addMetaChar(char) {
-        if (!MetaChars.includes(char)) {
-            throw new Error(`Invalid meta char "${char}".`);
-        }
         let c = new MetaChar(char);
         this.elements.push(c);
         return this;

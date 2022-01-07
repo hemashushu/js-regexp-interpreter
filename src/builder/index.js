@@ -8,13 +8,8 @@
 
 import {
     SimpleChar,
-    EscapedChar,
     UnicodeChar,
     MetaChar,
-
-    MetaChars,
-    EntityChars,
-
 } from '../ast/index.js';
 
 import { CharSetBuilder } from './charsetbuilder.js';
@@ -31,12 +26,7 @@ class Builder {
      * @returns
      */
     static char(char) {
-        let c;
-        if (EntityChars.includes(char)) {
-            c = new EscapedChar(char);
-        } else {
-            c = new SimpleChar(char);
-        }
+        let c = new SimpleChar(char);
         return c;
     }
 
@@ -46,9 +36,6 @@ class Builder {
      * @returns
      */
     static metaChar(char) {
-        if (!MetaChars.includes(char)) {
-            throw new Error(`Invalid meta char "${char}".`);
-        }
         return new MetaChar(char);
     }
 

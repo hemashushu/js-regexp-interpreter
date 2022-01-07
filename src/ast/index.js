@@ -15,8 +15,7 @@ import { Char } from './char.js';
 import { MetaChar, MetaChars } from './metachar.js';
 import { CodePointChar } from './codepointchar.js';
 
-import { SimpleChar } from './simplechar.js';
-import { EscapedChar, EntityChars } from './escapedchar.js';
+import { SimpleChar, EntityChars } from './simplechar.js';
 import { UnicodeChar } from './unicodechar.js';
 
 import { AlternativeExp } from './alternativeexp.js';
@@ -42,7 +41,6 @@ import { CharRange } from './charrange.js';
 //   |-- Char
 //   |     |-- CodePointChar
 //   |     |     |-- SimpleChar
-//   |     |     |-- EscapedChar
 //   |     |     \-- UnicodeChar
 //   |     |
 //   |     \--  MetaChar
@@ -69,7 +67,6 @@ export {
     Char,
     CodePointChar,
     SimpleChar,
-    EscapedChar,
     UnicodeChar,
 
     MetaChar,

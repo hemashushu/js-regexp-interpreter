@@ -11,7 +11,7 @@ import { Char } from './char.js';
 const MetaChars = [
     '.',
     'f', 'r', 'n', 't', 'v', '0', 'b',
-    's', 'S', 'w', 'W'];
+    's', 'S', 'w', 'W', 'd', 'D'];
 
 /**
  * 详细参考：
@@ -52,6 +52,10 @@ class MetaChar extends Char {
      */
     constructor(meta) {
         super();
+
+        if (!MetaChars.includes(meta)) {
+            throw new Error(`Invalid meta character "${meta}".`);
+        }
         this.meta = meta;
     }
 

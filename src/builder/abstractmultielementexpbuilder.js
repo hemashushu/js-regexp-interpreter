@@ -7,13 +7,9 @@
  */
 
 import {
-    EscapedChar,
     SimpleChar,
     MetaChar,
     UnicodeChar,
-
-    EntityChars,
-    MetaChars
 } from '../ast/index.js';
 
 import { CharSetBuilder } from './charsetbuilder.js';
@@ -27,21 +23,12 @@ class AbstractMultiElementExpBuilder {
     }
 
     addChar(char) {
-        let c;
-        if (EntityChars.includes(char)) {
-            c = new EscapedChar(char);
-        } else {
-            c = new SimpleChar(char);
-        }
-
+        let c = new SimpleChar(char);
         this.elements.push(c);
         return this;
     }
 
     addMetaChar(char) {
-        if (!MetaChars.includes(char)) {
-            throw new Error(`Invalid meta char "${char}".`);
-        }
         let c = new MetaChar(char);
         this.elements.push(c);
         return this;

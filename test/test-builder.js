@@ -14,7 +14,6 @@ import {
     Char,
     CodePointChar,
     SimpleChar,
-    EscapedChar,
     UnicodeChar,
 
     MetaChar,
@@ -44,16 +43,16 @@ import {
 import { Builder } from '../src/builder/index.js';
 
 function testChar() {
-    // SimpleChar
+    // simple char
     let e1 = Builder.char('a');
     assert.deepEqual(e1, new SimpleChar('a'));
     assert.equal(e1.value, 'a');
     assert.equal(e1.codePoint, 97);
     assert.equal(e1.toString(), 'a');
 
-    // EscapedChar
+    // entity char
     let e2 = Builder.char('*');
-    assert.deepEqual(e2, new EscapedChar('*'));
+    assert.deepEqual(e2, new SimpleChar('*'));
     assert.equal(e2.value, '*');
     assert.equal(e2.codePoint, 42);
     assert.equal(e2.toString(), '\\*');
@@ -67,16 +66,16 @@ function testMetaChar() {
 }
 
 function testUnicodeChar() {
-    let e1 = Builder.unicodeChar(25991);
-    assert.deepEqual(e1, new UnicodeChar(25991));
+    let e1 = Builder.unicodeChar(0x6587);
+    assert.deepEqual(e1, new UnicodeChar(0x6587));
     assert.equal(e1.value, '文');
-    assert.equal(e1.codePoint, 25991);
+    assert.equal(e1.codePoint, 0x6587);
     assert.equal(e1.toString(), '\\u{6587}');
 
-    let e2 = Builder.unicodeChar(10084);
-    assert.deepEqual(e2, new UnicodeChar(10084));
+    let e2 = Builder.unicodeChar(0x2764);
+    assert.deepEqual(e2, new UnicodeChar(0x2764));
     assert.equal(e2.value, '❤');
-    assert.equal(e2.codePoint, 10084);
+    assert.equal(e2.codePoint, 0x2764);
     assert.equal(e2.toString(), '\\u{2764}');
 }
 
@@ -94,27 +93,48 @@ function testCharSet() {
 
     assert.equal(e1.toString(), '[abc]');
 
+    // 实体字符
+    let e2 = Builder.charSet()
+        .addChar('*')
+        .addChar('+')
+        .addChar('?')
+        .addChar('.')
+        .addChar('{')
+        .addChar('}')
+        .addChar('(')
+        .addChar(')')
+        .addChar('[')
+        .addChar(']')
+        .addChar('^')
+        .addChar('$')
+        .addChar('\\')
+        .addChar('|')
+        .addChar('-') // 符号 `-` 仅在字符集的中间位置才需要编码
+        .build();
+
+    assert.equal(e2.toString(), '[*+?.{}()[\\]^$\\\\|-]');
+
     // 字符范围
 
-    let e2 = Builder.charSet()
+    let e3 = Builder.charSet()
         .addRange()
             .fromChar('0')
             .toChar('9')
             .build()
         .build();
 
-    assert.deepEqual(e2, new CharSet([
+    assert.deepEqual(e3, new CharSet([
         new CharRange(
             new SimpleChar('0'),
             new SimpleChar('9')
         )
     ]));
 
-    assert.equal(e2.toString(), '[0-9]');
+    assert.equal(e3.toString(), '[0-9]');
 
     // 单字符与字符范围混合
 
-    let e3 = Builder.charSet()
+    let e4 = Builder.charSet()
         .addChar('+')
         .addRange()
             .fromChar('0')
@@ -126,22 +146,22 @@ function testCharSet() {
             .build()
         .build();
 
-    assert.equal(e3.toString(), '[\\+0-9A-F]');
+    assert.equal(e4.toString(), '[+0-9A-F]');
 
     // "非" 字符集
 
-    let e4 = Builder.charSet(true)
+    let e5 = Builder.charSet(true)
         .addChar('a')
         .addChar('b')
         .build();
 
 
-    assert.deepEqual(e4, new CharSet([
+    assert.deepEqual(e5, new CharSet([
         new SimpleChar('a'),
         new SimpleChar('b')
     ], true));
 
-    assert.equal(e4.toString(), '[^ab]');
+    assert.equal(e5.toString(), '[^ab]');
 }
 
 function testSeqExp() {

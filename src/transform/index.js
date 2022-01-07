@@ -12,7 +12,6 @@ import {
     Char,
     CodePointChar,
     SimpleChar,
-    EscapedChar,
     UnicodeChar,
 
     MetaChar,
@@ -37,7 +36,7 @@ import {
     ZeroOrMoreQuantifier,
     ManyTimesQuantifier,
     ManyTimesOrMoreQuantifier
-} from '../src/ast/index.js';
+} from '../ast/index.js';
 
 class Transformer {
 
@@ -63,8 +62,9 @@ class Transformer {
             new UnicodeChar(0x2028),
             new UnicodeChar(0x2029),
             new UnicodeChar(0x202f),
+            new UnicodeChar(0x205f),
             new UnicodeChar(0x3000),
-            new UnicodeChar(feff)
+            new UnicodeChar(0xfeff)
         ];
 
         let charSetS = new CharSet(charsS, false);
@@ -118,7 +118,6 @@ class Transformer {
      */
     transform(exp) {
         if (exp instanceof SimpleChar ||
-            exp instanceof EscapedChar ||
             exp instanceof UnicodeChar) {
             return exp;
 
@@ -146,6 +145,7 @@ class Transformer {
         let chars = [];
         for (let char of charSet.chars) {
             if (char instanceof MetaChar) {
+                let meta = char.meta;
                 if (meta === 'S' ||
                     meta === 'W' ||
                     meta === 'D') { // 不支持在字符集里出现表示 "非" 的元字符。
@@ -188,7 +188,7 @@ class Transformer {
     transformAlternativeExp(seqExp) {
         return new AlternativeExp(
             seqExp.exps.map(item => {
-                this.transform(item)
+                return this.transform(item);
             })
         );
     }
@@ -196,7 +196,7 @@ class Transformer {
     transformDisjunctionExp(orExp) {
         return new DisjunctionExp(
             orExp.exps.map(item => {
-                this.transform(item)
+                return this.transform(item);
             })
         );
     }
@@ -210,14 +210,14 @@ class Transformer {
         );
     }
 
-    transformRepetitionExp(repExp) {
-        let quantifier = repExp.quantifier;
+    transformRepetitionExp(repeatExp) {
+        let quantifier = repeatExp.quantifier;
         if ((quantifier instanceof RangeQuantifier) &&
             (quantifier.from === quantifier.to)) {
             quantifier = new ManyTimesQuantifier(quantifier.from);
         }
         return new RepetitionExp(
-            this.transform(repExp.exp),
+            this.transform(repeatExp.exp),
             quantifier
         );
     }
