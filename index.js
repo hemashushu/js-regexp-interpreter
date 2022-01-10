@@ -6,8 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { Lex } from './src/lex/index.js';
+import { Parser } from './src/parser/index.js';
 import { Builder } from './src/builder/index.js';
 
 export {
-    Builder
+    Lex,
+    Parser,
+    Builder,
 };

@@ -6,20 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { Symbol } from '../ast/symbol.js';
-
 /**
- * 表示空字符，不消费目标字符
  * 用于连接两个 State，相当于跳线/短接。
+ * EpsilonTransition 不消费目标字符，类似匹配空字符。
+ * 一个 State 可以有多个 EpsilonTransition 目标 State。
  */
-class EpsilonSymbol extends Symbol {
-    constructor() {
-        super();
-    }
-
-    toString() {
-        return 'ε';
+class EpsilonTransition {
+    constructor(nextStates = []) {
+        this.nextStates = nextStates;
     }
 }
 
-export { EpsilonSymbol };
+export { EpsilonTransition };

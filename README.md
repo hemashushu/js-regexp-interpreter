@@ -1,6 +1,6 @@
 # JS-Regex
 
-尝试实现一个极其简陋的正则表达式解析器（interpreter），仅用于学习之目的。
+尝试实现一个极其简陋的正则表达式解析器（interpreter）。
 
 语法参照 JavaScript 版本的 Regex。
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
@@ -26,3 +26,6 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expression
 - "连接"，比如 `ab`，`a+b`，`0x[0-9a-f]+`；
 - "或"，比如 `a|b`，`[0-9]+|0x[0-9a-f]+`。
 - 分组，比如 `(a)`，`(a)(x)`
+
+_请勿用于生产环境，仅供学习之目的。_
+

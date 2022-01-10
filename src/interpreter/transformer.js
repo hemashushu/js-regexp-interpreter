@@ -25,7 +25,7 @@ import {
 } from '../ast/index.js';
 
 /**
- * 对 AST （语法数）进行语法检查和必要的转换
+ * 对 AST （语法树）进行语法检查和必要的转换
  *
  * - 遇到元字符 `\0`, `[\b]` 和 `.` 抛出异常；
  * - 字符集里 `[...]` 出现 `\S`, `\W`, `\D` 时抛异常；
@@ -103,6 +103,11 @@ class Transformer {
     }
 
     transform(exp) {
+        if (exp === undefined) {
+            // 正则表达式是空的情况，视为 `^$`
+            return;
+        }
+
         if (exp instanceof SimpleChar ||
             exp instanceof UnicodeChar) {
             return exp;
@@ -124,6 +129,8 @@ class Transformer {
 
         } else if (exp instanceof RepetitionExp) {
             return this.transformRepetitionExp(exp);
+        } else {
+            throw new Error('Unsupported AST node.');
         }
     }
 

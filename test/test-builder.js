@@ -143,20 +143,31 @@ function testCharSet() {
 
     assert.equal(e4.toString(), '[+0-9A-F]');
 
+    // 包含元字符
+    let e5 = Builder.charSet()
+        .addRange()
+            .fromChar('0')
+            .toChar('9')
+            .build()
+        .addMetaChar('w')
+        .build();
+
+    assert.equal(e5.toString(), '[0-9\\w]');
+
     // "非" 字符集
 
-    let e5 = Builder.charSet(true)
+    let e6 = Builder.charSet(true)
         .addChar('a')
         .addChar('b')
         .build();
 
 
-    assert.deepEqual(e5, new CharSet([
+    assert.deepEqual(e6, new CharSet([
         new SimpleChar('a'),
         new SimpleChar('b')
     ], true));
 
-    assert.equal(e5.toString(), '[^ab]');
+    assert.equal(e6.toString(), '[^ab]');
 }
 
 function testSeqExp() {

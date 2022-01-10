@@ -78,7 +78,7 @@ class Lex {
                     idx += (length - 1); // 跳过 length - 1 个字符 （因为 length 包括了 `\` 字符）
 
                 } else {
-                    throw new Error(`Invalid escaped char "${aheadChar}".`);
+                    throw new Error(`Unsupported char "\\${aheadChar}".`);
                 }
 
             } else if (char === MetaCharDot) {           // 当前是元字符 `.`
@@ -86,14 +86,25 @@ class Lex {
 
             } else if (['*', '+', '?'].includes(char)) { // 当前是数量字符
                 let aheadChar = this.lookAhead(chars, idx, 1);
+                // 检查后一个字符是否为 `?`
                 if (aheadChar === '?') {
+                    // 当前是 '??'
                     let token = new QuantityToken(char, false);
                     tokens.push(token);
                     idx++; // 跳过 1 个字符
 
                 } else {
-                    let token = new QuantityToken(char);
-                    tokens.push(token);
+                    // 检查前一个字符是否为 `(`
+                    let behindChar = this.lookBehind(chars, idx, 1);
+                    if (behindChar === '(') {
+                        // 当前是分组的属性，即 `(?...)`
+                        let token = new EntityToken(char);
+                        tokens.push(token);
+                    }else {
+                        // 当前是普通的数量字符即 `?`
+                        let token = new QuantityToken(char);
+                        tokens.push(token);
+                    }
                 }
 
             } else if (['(', ')', '|'] // '^', '$' 还未支持

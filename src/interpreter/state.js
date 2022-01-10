@@ -6,39 +6,43 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { EpsilonSymbol } from './epsilonsymbol.js';
-import { Transition } from './transition.js';
+import { EpsilonTransition } from './epsilontransition.js';
+import { SymbolTransition } from './symboltransition.js';
 
 class State {
     constructor(index, accept) {
         this.index = index;
         this.accept = accept;
-        this.transitions = []; // [{symbol: Symbol, states: [nextState, ...]}]
+        this.symbolTransitions = []; // [{symbol: Symbol, nextState: State}]
+        this.epsilonTransition = new EpsilonTransition(); // [nextStates: [State, State, ...]]
     }
 
-    addTransition(transition) {
-        this.transitions.push(transition);
+    addSymbolTransition(symbol, nextState) {
+        this.symbolTransitions.push(
+            new SymbolTransition(symbol, nextState));
     }
 
-    appendEpsilonTransition(state) {
-        let epsilonTransition = this.transitions.find(item => {
-            return item instanceof EpsilonSymbol;
-        });
-
-        if (epsilonTransition === null) {
-            this.addTransition(
-                new Transition(new EpsilonSymbol(), [state])
-            );
-        } else {
-            epsilonTransition.states.push(state);
-        }
+    addEpsilonTransition(nextState) {
+        this.epsilonTransition.nextStates.push(nextState);
     }
 
     toString() {
-        let ss = this.transitions.map(item => {
-            return item.toString();
+        let symbols = this.symbolTransitions.map(item => {
+            return '"' + item.symbol.toString() + '"->' + item.nextState.index;
         });
-        return ss.join(',');
+
+        let epsilonNextStateIndexies = this.epsilonTransition.nextStates.map(item => {
+            return item.index;
+        });
+
+        let epsilons = 'ε->[' + epsilonNextStateIndexies.join(',') + ']';
+
+        symbols.push(epsilons);
+
+        return this.index +
+            (this.accept ? '*' : '') +
+            ': ' +
+            symbols.join(', ');
     }
 }
 

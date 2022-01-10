@@ -6,18 +6,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { testBuilder } from './test-builder.js';
-import { testTransformer } from './test-transformer.js';
 import { testLex } from './test-lex.js';
+import { testBuilder } from './test-builder.js';
 import { testRefactor } from './test-refactor.js';
 import { testParser } from './test-parser.js';
+import { testTransformer } from './test-transformer.js';
+import { testCompiler } from './test-compiler.js';
 
 (() => {
-    testBuilder();
-    testTransformer();
     testLex();
+    testBuilder();
     testRefactor();
     testParser();
+    testTransformer();
+    testCompiler();
 
     console.log('All passed.');
 })();

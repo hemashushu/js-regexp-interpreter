@@ -21,14 +21,14 @@ function testFoldTokens() {
     let refactor = new Refactor();
 
     let t1 = lex.lexChars(stringToCharArray('ab'));
-    let { groupToken: g1 } = refactor.foldTokens(t1, 0);
+    let { groupToken: g1 } = refactor.refactorTokens(t1, 0);
     assert.deepEqual(g1, new GroupToken([
         new CharToken('a'),
         new CharToken('b')
     ]));
 
     let t2 = lex.lexChars(stringToCharArray('a(01)b'));
-    let { groupToken: g2 } = refactor.foldTokens(t2, 0);
+    let { groupToken: g2 } = refactor.refactorTokens(t2, 0);
     assert.deepEqual(g2, new GroupToken([
         new CharToken('a'),
         new GroupToken([
@@ -39,7 +39,7 @@ function testFoldTokens() {
     ]));
 
     let t3 = lex.lexChars(stringToCharArray('a(0)b(1)c'));
-    let { groupToken: g3 } = refactor.foldTokens(t3, 0);
+    let { groupToken: g3 } = refactor.refactorTokens(t3, 0);
     assert.deepEqual(g3, new GroupToken([
         new CharToken('a'),
         new GroupToken([
@@ -53,7 +53,7 @@ function testFoldTokens() {
     ]));
 
     let t4 = lex.lexChars(stringToCharArray('a(0(\\*)1)b(2)c'));
-    let { groupToken: g4 } = refactor.foldTokens(t4, 0);
+    let { groupToken: g4 } = refactor.refactorTokens(t4, 0);
     assert.deepEqual(g4, new GroupToken([
         new CharToken('a'),
         new GroupToken([

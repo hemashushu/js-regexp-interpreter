@@ -26,7 +26,7 @@ class Refactor {
      * @returns { groupToken, groupLength }
      *     groupLength 为组内有效的 token 数量，不包括 `)` token。
      */
-    foldTokens(tokens, currentIdx) {
+    refactorTokens(tokens, currentIdx) {
         let cascadedTokens = [];
 
         let idx = currentIdx;
@@ -36,7 +36,7 @@ class Refactor {
                 (token.value === '(')) {
                 // 新一组的开始
                 let { groupToken, groupLength: length } =
-                    this.foldTokens(tokens, idx + 1);
+                    this.refactorTokens(tokens, idx + 1);
 
                 cascadedTokens.push(groupToken);
                 idx += (length + 1); // 跳过 length + 1 个 token，因为 length 不包括 `(` 和 `)`

@@ -61,7 +61,7 @@ class Parser {
     parseTokens(tokens) {
         // 将 tokens 转换为层叠型的结构
         let refactor = new Refactor();
-        let { groupToken } = refactor.foldTokens(tokens, 0);
+        let { groupToken } = refactor.refactorTokens(tokens, 0);
 
         // 因为第 0 层 "组" 是虚拟的，所以直接提取其中的 tokens
         let cascadedTokens = groupToken.tokens;
@@ -69,10 +69,16 @@ class Parser {
     }
 
     parseGroupExp(token) {
-        // 注：
-        // 不支持组命名、不捕获、往前看断言、往后看断言
         // 所以直接调用 parseOrExp() 方法。
         let tokens = token.tokens;
+
+        // 不支持组命名、不捕获、往前看断言、往后看断言
+        if (
+            (tokens[0] instanceof EntityToken) &&
+            tokens[0].value === '?') {
+            throw new Error(`Unsupported group feature.`);
+        }
+
         let node = this.parseOrExp(tokens);
         return new GroupExp(node);
     }
@@ -166,7 +172,7 @@ class Parser {
             } else if (token instanceof GroupToken) {
                 node = this.parseGroupExp(token);
             } else {
-                throw new Error('Invalid token in sequence expression, ' + typeof (token) + ': ' + JSON.stringify(token));
+                throw new Error('Invalid token in sequence expression: ' + JSON.stringify(token));
             }
 
             if (idx < tokens.length - 1) {
@@ -231,6 +237,10 @@ class Parser {
 
                 idx += 2; // 跳过两个 token
 
+            } else if (token instanceof MetaToken) {
+                // 元字符
+                chars.push(new MetaChar(token.value));
+
             } else {
                 // 单个字符
                 chars.push(this.parseCodePointCharToken(token));
@@ -248,7 +258,7 @@ class Parser {
     parseCodePointCharToken(token) {
         if (token instanceof CharToken) {
             return new SimpleChar(token.value);
-        } else if (token instanceof UnicodeChar) {
+        } else if (token instanceof UnicodeToken) {
             return new UnicodeChar(token.value);
         } else {
             throw new Error('Unexpected character token.');

@@ -9,7 +9,7 @@
 import { strict as assert } from 'assert';
 
 import { Builder } from '../src/builder/index.js';
-import { Transformer } from '../src/transform/index.js'
+import { Transformer } from '../src/interpreter/transformer.js'
 
 function testCodePointChar() {
     let t = new Transformer();
@@ -66,6 +66,15 @@ function testCharSet() {
 
     let t2 = t.transform(e2);
     assert.equal(t2.toString(), '[A-Za-z0-9_-]');
+
+    let e3 = Builder.charSet()
+        .addChar('文')
+        .addMetaChar('w')
+        .addChar('-')
+        .build();
+
+    let t3 = t.transform(e3);
+    assert.equal(t3.toString(), '[文A-Za-z0-9_-]');
 }
 
 function testSeqExp() {
