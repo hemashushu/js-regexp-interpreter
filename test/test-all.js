@@ -8,10 +8,16 @@
 
 import { testBuilder } from './test-builder.js';
 import { testTransformer } from './test-transformer.js';
+import { testLex } from './test-lex.js';
+import { testRefactor } from './test-refactor.js';
+import { testParser } from './test-parser.js';
 
 (() => {
     testBuilder();
     testTransformer();
+    testLex();
+    testRefactor();
+    testParser();
 
     console.log('All passed.');
 })();

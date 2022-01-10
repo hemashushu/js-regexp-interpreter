@@ -8,16 +8,8 @@
 
 import { Char } from './char.js';
 
-const MetaChars = [
-    '.',
-    'f', 'r', 'n', 't', 'v', '0', 'b',
-    's', 'S', 'w', 'W', 'd', 'D'];
-
 /**
- * 详细参考：
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet
- *
- * 正则的元字符有：
+ * 正则表达式的元字符有：
  * - \f, \r, \n, \t, \v, \0, [\b] (backspace char)
  *   以上表示转义字符。
  *   https://www.asciitable.com/
@@ -27,7 +19,8 @@ const MetaChars = [
  *   \t horizontal tab 9 0x9
  *   \v vertical tab 11 0xB
  *   \b backspace 8 0x8
- * - .
+ *
+ * - 单独一个点号 `.`
  *   在单行模式（single line, dot all）下，匹配包括 \n 在内的所有字符，否则匹配除了 \n 之外的字符。
  *
  * - \s, \S, \w, \W, \d, \D.
@@ -43,8 +36,16 @@ const MetaChars = [
  * - 元字符没有对应的 codePoint
  *
  * 参考：
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet
  * https://github.com/DmitrySoshnikov/regexp-tree#meta-char
  */
+const MetaChars = [
+    'f', 'r', 'n', 't', 'v', '0', 'b',
+    's', 'S', 'w', 'W', 'd', 'D'];
+
+// 正则表达式的元字符 `.`
+const MetaCharDot = '.';
+
 class MetaChar extends Char {
     /**
      *
@@ -53,19 +54,19 @@ class MetaChar extends Char {
     constructor(meta) {
         super();
 
-        if (!MetaChars.includes(meta)) {
+        if (!MetaChars.includes(meta) && meta !== MetaCharDot) {
             throw new Error(`Invalid meta character "${meta}".`);
         }
         this.meta = meta;
     }
 
     toString() {
-        if (this.meta === '.') {
-            return '.';
+        if (this.meta === MetaCharDot) {
+            return MetaCharDot;
         } else {
             return '\\' + this.meta;
         }
     }
 }
 
-export { MetaChar, MetaChars };
+export { MetaChar, MetaChars, MetaCharDot };

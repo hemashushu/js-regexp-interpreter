@@ -7,37 +7,32 @@
  */
 
 import {
-    Symbol,
-
-    Char,
-    CodePointChar,
     SimpleChar,
     UnicodeChar,
 
     MetaChar,
     CharSet,
 
-    Expression,
     AlternativeExp,
     DisjunctionExp,
     GroupExp,
     RepetitionExp,
 
-    // 常量
-    MetaChars,
-    EntityChars,
-
     // 辅助
     CharRange,
-    Quantifier,
     RangeQuantifier,
-    OneOrMoreQuantifier,
-    OneOrZeroQuantifier,
-    ZeroOrMoreQuantifier,
-    ManyTimesQuantifier,
-    ManyTimesOrMoreQuantifier
+    ManyTimesQuantifier
 } from '../ast/index.js';
 
+/**
+ * 对 AST （语法数）进行语法检查和必要的转换
+ *
+ * - 遇到元字符 `\0`, `[\b]` 和 `.` 抛出异常；
+ * - 字符集里 `[...]` 出现 `\S`, `\W`, `\D` 时抛异常；
+ * - 将字符集 `[...]` 里面的元字符相应的字符或字符范围；
+ * - 将元字符转换为相应的字符或者字符集；
+ * - 将 {m,m} 转为 {m}；
+ */
 class Transformer {
 
     constructor() {
@@ -107,15 +102,6 @@ class Transformer {
         this.metaCharTable.set('d_raw', charsD);
     }
 
-    /**
-     * - 遇到元字符 `\0`, `[\b]` 和 `.` 抛出异常
-     * - 遇到 `[...]` 里面出现 \S \W \D 抛异常
-     * - 将元字符转换为正确的字符或字符集
-     * - 将 {m,m} 转为 {m}
-     *
-     * @param {*} exp AST 对象
-     * @returns
-     */
     transform(exp) {
         if (exp instanceof SimpleChar ||
             exp instanceof UnicodeChar) {

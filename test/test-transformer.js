@@ -8,38 +8,6 @@
 
 import { strict as assert } from 'assert';
 
-import {
-    Symbol,
-
-    Char,
-    CodePointChar,
-    SimpleChar,
-    UnicodeChar,
-
-    MetaChar,
-    CharSet,
-
-    Expression,
-    AlternativeExp,
-    DisjunctionExp,
-    GroupExp,
-    RepetitionExp,
-
-    // 常量
-    MetaChars,
-    EntityChars,
-
-    // 辅助
-    CharRange,
-    Quantifier,
-    RangeQuantifier,
-    OneOrMoreQuantifier,
-    OneOrZeroQuantifier,
-    ZeroOrMoreQuantifier,
-    ManyTimesQuantifier,
-    ManyTimesOrMoreQuantifier
-} from '../src/ast/index.js';
-
 import { Builder } from '../src/builder/index.js';
 import { Transformer } from '../src/transform/index.js'
 
@@ -64,7 +32,7 @@ function testMetaChar() {
 
     let e1 = Builder.metaChar('n');
     let t1 = t.transform(e1);
-    assert.equal(t1.toString(), '\\u{a}');
+    assert.equal(t1.toString(), '\\u{000a}');
 
     let e2 = Builder.metaChar('w');
     let t2 = t.transform(e2);
@@ -77,7 +45,7 @@ function testMetaChar() {
     let e4 = Builder.metaChar('s');
     let t4 = t.transform(e4);
     assert.equal(t4.toString(),
-        '[ \\u{c}\\u{a}\\u{d}\\u{9}\\u{b}\\u{a0}\\u{1680}\\u{2000}-\\u{200a}\\u{2028}\\u{2029}\\u{202f}\\u{205f}\\u{3000}\\u{feff}]');
+        '[ \\u{000c}\\u{000a}\\u{000d}\\u{0009}\\u{000b}\\u{00a0}\\u{1680}\\u{2000}-\\u{200a}\\u{2028}\\u{2029}\\u{202f}\\u{205f}\\u{3000}\\u{feff}]');
 }
 
 function testCharSet() {
@@ -106,10 +74,10 @@ function testSeqExp() {
     let e1 = Builder.seqExp()
         .addChars('foo')
         .addCharSet()
-        .addChar('+')
-        .addChar('-')
-        .addMetaChar('d')
-        .build()
+            .addChar('+')
+            .addChar('-')
+            .addMetaChar('d')
+            .build()
         .build();
 
     let t1 = t.transform(e1);
@@ -122,10 +90,10 @@ function testOrExp() {
     let e1 = Builder.orExp()
         .addChar('a')
         .addCharSet()
-        .addChar('+')
-        .addChar('-')
-        .addMetaChar('d')
-        .build()
+            .addChar('+')
+            .addChar('-')
+            .addMetaChar('d')
+            .build()
         .build();
 
     let t1 = t.transform(e1);

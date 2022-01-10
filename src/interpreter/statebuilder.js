@@ -49,6 +49,7 @@ import {
 
     // 常量
     MetaChars,
+    MetaCharDot,
     EntityChars,
 
     // 辅助

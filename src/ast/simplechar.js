@@ -8,28 +8,19 @@
 
 import { CodePointChar } from './codepointchar.js';
 
+// 正则表达式里需要编码（escape）的实体字符
 const EntityChars = [
     '*', '+', '?', '.',
     '{', '}', '(', ')', '[', ']',
     '^', '$', '\\', '|'];
 
-const EntityCharsInChatSet = [
+// 在字符集里，即在 `[...]` 里面，必须编码的字符，
+// 其中 `-` 符号只有处于中间位置才需要编码。
+// 详细参见：
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+const EntityCharsRequiredInChatSet = [
     ']', '\\', '-'
 ];
-
-/**
- * 正则表达式里需要编码（escape）的实体字符：
- * \*, \+, \?, \.,
- * \{, \}, \(, \), \[, \],
- * \^, \$, \\, \|
- *
- * 注意：
- * 在字符集里面，即在 `[...]` 里面，只有 `]`, `\`, 还有处于
- * 中间位置的 `-` 符号才需要编码（escape）。
- *
- * 详细参见：
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
- */
 
 class SimpleChar extends CodePointChar {
     constructor(value) {
@@ -45,4 +36,4 @@ class SimpleChar extends CodePointChar {
     }
 }
 
-export { SimpleChar, EntityChars, EntityCharsInChatSet };
+export { SimpleChar, EntityChars, EntityCharsRequiredInChatSet as EntityCharsInChatSet };

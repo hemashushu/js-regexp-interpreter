@@ -9,29 +9,18 @@
 import { strict as assert } from 'assert';
 
 import {
-    Symbol,
-
-    Char,
-    CodePointChar,
     SimpleChar,
     UnicodeChar,
 
     MetaChar,
     CharSet,
 
-    Expression,
     AlternativeExp,
     DisjunctionExp,
     GroupExp,
     RepetitionExp,
 
-    // 常量
-    MetaChars,
-    EntityChars,
-
-    // 辅助
     CharRange,
-    Quantifier,
     RangeQuantifier,
     OneOrMoreQuantifier,
     OneOrZeroQuantifier,
@@ -50,12 +39,18 @@ function testChar() {
     assert.equal(e1.codePoint, 97);
     assert.equal(e1.toString(), 'a');
 
+    let e2 = Builder.char('中');
+    assert.deepEqual(e2, new SimpleChar('中'));
+    assert.equal(e2.value, '中');
+    assert.equal(e2.codePoint, 20013);
+    assert.equal(e2.toString(), '中');
+
     // entity char
-    let e2 = Builder.char('*');
-    assert.deepEqual(e2, new SimpleChar('*'));
-    assert.equal(e2.value, '*');
-    assert.equal(e2.codePoint, 42);
-    assert.equal(e2.toString(), '\\*');
+    let e3 = Builder.char('*');
+    assert.deepEqual(e3, new SimpleChar('*'));
+    assert.equal(e3.value, '*');
+    assert.equal(e3.codePoint, 42);
+    assert.equal(e3.toString(), '\\*');
 }
 
 function testMetaChar() {

@@ -18,6 +18,9 @@ import { OrExpBuilder } from './orexpbuilder.js';
 import { GroupExpBuilder } from './groupexpbuilder.js';
 import { RepeatExpBuilder } from './repeatexpbuilder.js';
 
+/**
+ * 用于手动构建 AST （语法树）。
+ */
 class Builder {
     /**
      *

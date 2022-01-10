@@ -12,7 +12,7 @@ import { Expression } from './expression.js';
 import { CharSet } from './charset.js';
 import { Char } from './char.js';
 
-import { MetaChar, MetaChars } from './metachar.js';
+import { MetaChar, MetaChars, MetaCharDot } from './metachar.js';
 import { CodePointChar } from './codepointchar.js';
 
 import { SimpleChar, EntityChars } from './simplechar.js';
@@ -35,6 +35,8 @@ import {
 
 import { CharRange } from './charrange.js';
 
+// AST （语法树）的各个元素
+//
 // 继承关系
 //
 // Symbol
@@ -80,6 +82,7 @@ export {
 
     // 常量
     MetaChars,
+    MetaCharDot,
     EntityChars,
 
     // 辅助
