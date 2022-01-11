@@ -54,7 +54,7 @@ class CharSet extends Symbol {
 
     includes(codePoint) {
         let found = false;
-        for (let s of this.chars) {
+        for (const s of this.chars) {
             if (s.includes(codePoint)) {
                 found = true;
                 break;

@@ -75,7 +75,7 @@ function testParser() {
         '(foo){1,3}',
     ];
 
-    for (let e of exps) {
+    for (const e of exps) {
         let n = parser.parseString(e);
         assert.equal(n.toString(), e);
     }

@@ -83,7 +83,7 @@ function testRefactor() {
  */
 function stringToCharArray(str) {
     let chars = [];
-    for (let c of str) {
+    for (const c of str) {
         chars.push(c);
     }
     return chars;

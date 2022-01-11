@@ -6,8 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-class SymbolTransition {
+import { Transition } from './transition.js';
+
+class SymbolTransition extends Transition {
     constructor(symbol, nextState) {
+        super(nextState);
 
         // symbol 是 AST 的 Symbol 对象实例：
         //
@@ -22,7 +25,10 @@ class SymbolTransition {
         //   \-- CharSet
 
         this.symbol = symbol;
-        this.nextState = nextState;
+    }
+
+    toString() {
+        return '"' + this.symbol.toString() + '" -> ' + this.nextState.index;
     }
 }
 

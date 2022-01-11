@@ -21,7 +21,7 @@ import {
     // 辅助
     CharRange,
     RangeQuantifier,
-    ManyTimesQuantifier
+    ManyTimesQuantifier,
 } from '../ast/index.js';
 
 /**
@@ -136,7 +136,7 @@ class Transformer {
 
     transformCharSet(charSet) {
         let chars = [];
-        for (let char of charSet.chars) {
+        for (const char of charSet.chars) {
             if (char instanceof MetaChar) {
                 let meta = char.meta;
                 if (meta === 'S' ||
@@ -149,7 +149,7 @@ class Transformer {
                     meta === 'w' ||
                     meta === 'd') { // 将字符集里的 \s \w \d 展开。
                     let subChars = this.metaCharTable.get(meta + '_raw');
-                    for (let subChar of subChars) {
+                    for (const subChar of subChars) {
                         chars.push(subChar);
                     }
 

@@ -11,27 +11,31 @@ import { Transformer } from '../transform/index.js';
 import { Compiler } from './compiler.js';
 
 class Matcher {
-    match(state, str) {
-        //
+    match(states, testStr) {
+        throw new Error('Not implemented.');
     }
 
-    static compile(expression) {
+    /**
+     *
+     * @param {*} expStr
+     * @returns
+     */
+    static compile(expStr) {
         let parser = new Parser();
         let transformer = new Transformer();
         let compiler = new Compiler();
 
-        let tree = parser.parseString(expression);
-
-        // 语法检查，转换元字符等
-        let node = transformer.transform(tree);
-        return compiler.compile(node);
+        let tree = parser.parseString(expStr);
+        let node = transformer.transform(tree); // 语法检查，转换元字符等
+        let states = compiler.compile(node);
+        return states;
     }
 
-    static test(expression, str) {
+    static test(expStr, testStr) {
         let matcher = new Matcher();
 
-        let state = Matcher.compile(expression);
-        return matcher.match(state, str);
+        let state = Matcher.compile(expStr);
+        return matcher.match(state, testStr);
     }
 }
 

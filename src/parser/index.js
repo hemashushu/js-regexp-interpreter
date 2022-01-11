@@ -45,7 +45,7 @@ class Parser {
     parseString(str) {
         // 将字符串转换为 Unicode 字符数组
         let chars = [];
-        for (let c of str) {
+        for (const c of str) {
             chars.push(c);
         }
 

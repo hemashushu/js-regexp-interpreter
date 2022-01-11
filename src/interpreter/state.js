@@ -13,36 +13,34 @@ class State {
     constructor(index, accept) {
         this.index = index;
         this.accept = accept;
-        this.symbolTransitions = []; // [{symbol: Symbol, nextState: State}]
-        this.epsilonTransition = new EpsilonTransition(); // [nextStates: [State, State, ...]]
+
+        // State 的转换列表，排在前面的 Transition 将会优先计算
+        this.transitions = [];
     }
 
     addSymbolTransition(symbol, nextState) {
-        this.symbolTransitions.push(
+        this.transitions.push(
             new SymbolTransition(symbol, nextState));
     }
 
     addEpsilonTransition(nextState) {
-        this.epsilonTransition.nextStates.push(nextState);
+        this.transitions.push(
+            new EpsilonTransition(nextState));
     }
 
     toString() {
-        let symbols = this.symbolTransitions.map(item => {
-            return '"' + item.symbol.toString() + '"->' + item.nextState.index;
+        let lines = this.transitions.map(item => {
+            return item.toString();
         });
-
-        let epsilonNextStateIndexies = this.epsilonTransition.nextStates.map(item => {
-            return item.index;
-        });
-
-        let epsilons = 'ε->[' + epsilonNextStateIndexies.join(',') + ']';
-
-        symbols.push(epsilons);
 
         return this.index +
-            (this.accept ? '*' : '') +
+            (this.accept ?
+                '*' :
+                '') +
             ': ' +
-            symbols.join(', ');
+            (lines.length > 0 ?
+                lines.join(', '):
+                '[]');
     }
 }
 

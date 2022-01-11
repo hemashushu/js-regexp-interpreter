@@ -29,3 +29,9 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expression
 
 _请勿用于生产环境，仅供学习之目的。_
 
+## 单元测试
+
+$ npm test
+
+## 命令行
+

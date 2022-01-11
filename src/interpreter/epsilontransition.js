@@ -6,14 +6,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { Transition } from './transition.js';
+
 /**
- * 用于连接两个 State，相当于跳线/短接。
+ * 用于无条件连接两个 State，相当于跳线/短接。
  * EpsilonTransition 不消费目标字符，类似匹配空字符。
  * 一个 State 可以有多个 EpsilonTransition 目标 State。
  */
-class EpsilonTransition {
-    constructor(nextStates = []) {
-        this.nextStates = nextStates;
+class EpsilonTransition extends Transition {
+    constructor(nextState) {
+        super(nextState);
+    }
+
+    toString() {
+        return 'ε -> ' + this.nextState.index;
     }
 }
 
