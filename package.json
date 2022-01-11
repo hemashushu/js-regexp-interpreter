@@ -5,7 +5,8 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "test": "node ./test/test-all.js"
+        "test": "node ./test/test-all.js",
+        "match": "node ./bin/index.js"
     },
     "repository": {
         "type": "git",

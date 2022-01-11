@@ -7,7 +7,7 @@
  */
 
 import { Parser } from '../parser/index.js';
-import { Transformer } from '../transform/index.js';
+import { Transformer } from './transformer.js';
 import { Compiler } from './compiler.js';
 
 class Matcher {
@@ -18,7 +18,7 @@ class Matcher {
     /**
      *
      * @param {*} expStr
-     * @returns
+     * @returns {inState, outState, states}
      */
     static compile(expStr) {
         let parser = new Parser();
@@ -27,8 +27,9 @@ class Matcher {
 
         let tree = parser.parseString(expStr);
         let node = transformer.transform(tree); // 语法检查，转换元字符等
-        let states = compiler.compile(node);
-        return states;
+        let { inState, outState } = compiler.compile(node);
+        let states = compiler.states;
+        return { inState, outState, states };
     }
 
     static test(expStr, testStr) {
