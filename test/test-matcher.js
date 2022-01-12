@@ -133,6 +133,8 @@ function testMatcher() {
     testAB();
     testAorB();
     testGroup();
+
+    console.log('testMatcher() passed.');
 }
 
 export { testMatcher };
