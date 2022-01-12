@@ -11,6 +11,7 @@ import { Token } from './token.js';
 class MetaToken extends Token {
     constructor(value) {
         super();
+        this.type = 'MetaToken';
         this.value = value;
     }
 }

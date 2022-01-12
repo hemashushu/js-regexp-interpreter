@@ -17,6 +17,8 @@ import { Expression } from './expression.js';
 class AlternativeExp extends Expression {
     constructor(exps = []) {
         super();
+
+        this.type = 'AlternativeExp';
         this.exps = exps;
     }
 

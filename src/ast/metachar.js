@@ -46,13 +46,13 @@ const MetaChars = [
 // 正则表达式的元字符 `.`
 const MetaCharDot = '.';
 
-class MetaChar extends Char {
+class MetaChar {
     /**
      *
      * @param {*} meta 元字符（不带前缀反斜杠符号）
      */
     constructor(meta) {
-        super();
+        this.type = 'MetaChar';
 
         if (!MetaChars.includes(meta) && meta !== MetaCharDot) {
             throw new Error(`Invalid meta character "${meta}".`);

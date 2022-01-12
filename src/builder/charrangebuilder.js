@@ -19,7 +19,7 @@ class CharRangeBuilder {
 
     /**
      *
-     * @param {*} char CodePointChar
+     * @param {*} char
      * @returns
      */
     fromChar(char) {
@@ -30,7 +30,7 @@ class CharRangeBuilder {
 
     /**
      *
-     * @param {*} char CodePointChar
+     * @param {*} char
      * @returns
      */
     toChar(char) {

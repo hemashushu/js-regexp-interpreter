@@ -12,8 +12,9 @@ import { Expression } from './expression.js';
  * 比如 \b \B ^ $
  */
 class Assertion extends Expression {
-    constructor(type) {
-        this.type = type;
+    constructor(kind) {
+        this.type = 'Assertion';
+        this.kind = kind;
     }
 }
 

@@ -8,13 +8,12 @@
 
 // Symbol
 //   |-- Char
-//   |     |-- CodePointChar
-//   |     |     |-- SimpleChar
-//   |     |     \-- UnicodeChar
-//   |     |
-//   |     \--  MetaChar
+//   |     |-- SimpleChar
+//   |     \-- UnicodeChar
 //   |
 //   \-- CharSet
+//
+// MetaChar
 //
 // Expression
 //   |-- AlternativeExp
@@ -33,28 +32,12 @@
 import {
     Symbol,
 
-    Char,
-    CodePointChar,
-    SimpleChar,
-    UnicodeChar,
-
-    MetaChar,
-    CharSet,
-
-    Expression,
     AlternativeExp,
     DisjunctionExp,
     GroupExp,
     RepetitionExp,
 
-    // 常量
-    MetaChars,
-    MetaCharDot,
-    EntityChars,
-
     // 辅助
-    CharRange,
-    Quantifier,
     RangeQuantifier,
     OneOrMoreQuantifier,
     OneOrZeroQuantifier,
@@ -64,9 +47,6 @@ import {
 } from '../ast/index.js';
 
 import { State } from './state.js';
-
-import { EpsilonTransition } from './epsilontransition.js';
-import { SymbolTransition } from './symboltransition.js';
 
 class Compiler {
     constructor() {

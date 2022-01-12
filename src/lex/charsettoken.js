@@ -11,6 +11,7 @@ import { Token } from './token.js';
 class CharSetToken extends Token {
     constructor(tokens) {
         super();
+        this.type = 'CharSetToken';
         this.tokens = tokens;
     }
 }

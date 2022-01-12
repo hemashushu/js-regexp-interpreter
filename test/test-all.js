@@ -12,6 +12,7 @@ import { testRefactor } from './test-refactor.js';
 import { testParser } from './test-parser.js';
 import { testTransformer } from './test-transformer.js';
 import { testCompiler } from './test-compiler.js';
+import { testMatcher } from './test-matcher.js';
 
 (() => {
     testLex();
@@ -20,6 +21,7 @@ import { testCompiler } from './test-compiler.js';
     testParser();
     testTransformer();
     testCompiler();
+    testMatcher();
 
     console.log('All passed.');
 })();

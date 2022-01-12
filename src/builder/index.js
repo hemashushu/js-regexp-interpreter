@@ -34,21 +34,21 @@ class Builder {
     }
 
     /**
-     *
-     * @param {*} char 元字符（不带前缀反斜杠符号）
-     * @returns
-     */
-    static metaChar(char) {
-        return new MetaChar(char);
-    }
-
-    /**
      * 用于表示表达式里诸如 '\u{hhhhhh}' 的 Unicode 码值
      *
      * @param {*} codePointInt 十进制整数
      */
     static unicodeChar(codePointInt) {
         return new UnicodeChar(codePointInt);
+    }
+
+    /**
+     *
+     * @param {*} char 元字符（不带前缀反斜杠符号）
+     * @returns
+     */
+    static metaChar(char) {
+        return new MetaChar(char);
     }
 
     static charSet(negative = false) {

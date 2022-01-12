@@ -7,6 +7,10 @@
  */
 
 class Expression {
+    constructor() {
+        this.type = 'Expression';
+    }
+
     /**
      * 返回正则表达式的文本
      */

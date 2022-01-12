@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { CodePointChar } from './codepointchar.js';
+import { Char } from './char.js';
 
 // 正则表达式里需要编码（escape）的实体字符
 const EntityChars = [
@@ -22,9 +22,11 @@ const EntityCharsRequiredInChatSet = [
     ']', '\\', '-'
 ];
 
-class SimpleChar extends CodePointChar {
+class SimpleChar extends Char {
     constructor(value) {
         super(value, value.codePointAt(0));
+
+        this.type = 'SimpleChar';
     }
 
     toString() {

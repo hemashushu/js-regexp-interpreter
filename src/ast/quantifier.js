@@ -8,6 +8,7 @@
 
 class Quantifier {
     constructor(greedy = true) {
+        this.type = 'Quantifier';
         this.greedy = greedy; // 是否为贪婪模式，默认为 True
     }
 
@@ -19,6 +20,8 @@ class Quantifier {
 class RangeQuantifier extends Quantifier {
     constructor(from, to, greedy = true) {
         super(greedy);
+
+        this.type = 'RangeQuantifier';
 
         if (to < from) {
             throw new Error('Quantifier range error.');
@@ -37,6 +40,8 @@ class RangeQuantifier extends Quantifier {
 class OneOrMoreQuantifier extends Quantifier {
     constructor(greedy = true) {
         super(greedy);
+
+        this.type = 'OneOrMoreQuantifier';
     }
 
     toString() {
@@ -48,6 +53,8 @@ class OneOrMoreQuantifier extends Quantifier {
 class OneOrZeroQuantifier extends Quantifier {
     constructor(greedy = true) {
         super(greedy);
+
+        this.type = 'OneOrZeroQuantifier';
     }
 
     toString() {
@@ -62,6 +69,8 @@ class OneOrZeroQuantifier extends Quantifier {
 class ZeroOrMoreQuantifier extends Quantifier {
     constructor(greedy = true) {
         super(greedy);
+
+        this.type = 'ZeroOrMoreQuantifier';
     }
 
     toString() {
@@ -73,6 +82,8 @@ class ZeroOrMoreQuantifier extends Quantifier {
 class ManyTimesQuantifier extends Quantifier {
     constructor(times) {
         super(false);
+
+        this.type = 'ManyTimesQuantifier';
         this.times = times;
     }
 
@@ -84,6 +95,8 @@ class ManyTimesQuantifier extends Quantifier {
 class ManyTimesOrMoreQuantifier extends Quantifier {
     constructor(times, greedy = true) {
         super(greedy);
+
+        this.type = 'ManyTimesOrMoreQuantifier';
         this.times = times;
     }
 

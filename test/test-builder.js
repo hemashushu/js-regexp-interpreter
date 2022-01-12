@@ -53,13 +53,6 @@ function testChar() {
     assert.equal(e3.toString(), '\\*');
 }
 
-function testMetaChar() {
-    let e1 = Builder.metaChar('w');
-    assert.deepEqual(e1, new MetaChar('w'));
-    assert.equal(e1.meta, 'w');
-    assert.equal(e1.toString(), '\\w');
-}
-
 function testUnicodeChar() {
     let e1 = Builder.unicodeChar(0x6587);
     assert.deepEqual(e1, new UnicodeChar(0x6587));
@@ -72,6 +65,13 @@ function testUnicodeChar() {
     assert.equal(e2.value, '❤');
     assert.equal(e2.codePoint, 0x2764);
     assert.equal(e2.toString(), '\\u{2764}');
+}
+
+function testMetaChar() {
+    let e1 = Builder.metaChar('w');
+    assert.deepEqual(e1, new MetaChar('w'));
+    assert.equal(e1.meta, 'w');
+    assert.equal(e1.toString(), '\\w');
 }
 
 function testCharSet() {

@@ -13,13 +13,9 @@ let args = process.argv;
 if (args.length === 3) {
     printStateTable(args[2]);
 
-} else if (args.length === 4) {
-    printMatchResult(args[2], args[3]);
-
 } else {
     console.log('usage:\n\
-    npm run match "expression_string"\n\
-    npm run match "expression_string" "test_string"\n\
+    npm run table "expression_string"\n\
     ');
     process.exit();
 }
@@ -40,13 +36,4 @@ function printStateTable(expStr) {
     console.log('-'.repeat(20));
     console.log(`in state: ${inState.index}`);
     console.log(`out state: ${outState.index}`);
-}
-
-function printMatchResult(expStr, testStr) {
-    console.log(`Expression: "${expStr}"`);
-    console.log(`Test: "${testStr}"`);
-
-    let result = Matcher.test(expStr, testStr);
-
-    console.log(`Result: ${result}`);
 }

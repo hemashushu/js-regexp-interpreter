@@ -9,9 +9,11 @@
 import { Lex } from './src/lex/index.js';
 import { Parser } from './src/parser/index.js';
 import { Builder } from './src/builder/index.js';
+import { Matcher } from './src/interpreter/index.js';
 
 export {
     Lex,
     Parser,
     Builder,
+    Matcher
 };

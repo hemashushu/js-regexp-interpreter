@@ -10,7 +10,8 @@ import { Expression } from './expression.js';
 
 class Backreference extends Expression {
     constructor(number) {
-        this.number;
+        this.type = 'Backreference';
+        this.number = number;
     }
 }
 

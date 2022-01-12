@@ -14,8 +14,8 @@ import { Compiler } from '../src/interpreter/compiler.js';
 
 function testA() {
     // 单一字符
-    let { complier: c1, inState: in1, outState: out1 } = getCompilerAndInOutState('a');
-    assert.deepEqual(statesToLines(c1.states), [
+    let { states: c1, inState: in1, outState: out1 } = getStates('a');
+    assert.deepEqual(statesToLines(c1), [
         '0: "a" -> 1',
         '1*: []'
     ]);
@@ -24,8 +24,8 @@ function testA() {
     assert.equal(out1.toString(), '1*: []');
 
     // 空表达式，相当于 `^$`
-    let { complier: c2, inState: in2, outState: out2 } = getCompilerAndInOutState('');
-    assert.deepEqual(statesToLines(c2.states), [
+    let { states: c2, inState: in2, outState: out2 } = getStates('');
+    assert.deepEqual(statesToLines(c2), [
         '0: ε -> 1',
         '1*: []'
     ]);
@@ -34,8 +34,8 @@ function testA() {
     assert.equal(out2.toString(), '1*: []');
 
     // 字符集
-    let { complier: c3, inState: in3, outState: out3 } = getCompilerAndInOutState('\\w');
-    assert.deepEqual(statesToLines(c3.states), [
+    let { states: c3, inState: in3, outState: out3 } = getStates('\\w');
+    assert.deepEqual(statesToLines(c3), [
         '0: "[A-Za-z0-9_]" -> 1',
         '1*: []'
     ]);
@@ -44,30 +44,40 @@ function testA() {
     assert.equal(out3.toString(), '1*: []');
 
     // 自定义字符集
-    let { complier: c4, inState: in4, outState: out4 } = getCompilerAndInOutState('[文\\w\\u{2764}]');
-    assert.deepEqual(statesToLines(c4.states), [
-        '0: "[文A-Za-z0-9_\\u{2764}]" -> 1',
+    let { states: c4, inState: in4, outState: out4 } = getStates('[a-f\\d]');
+    assert.deepEqual(statesToLines(c4), [
+        '0: "[a-f0-9]" -> 1',
         '1*: []'
     ]);
 
-    assert.equal(in4.toString(), '0: "[文A-Za-z0-9_\\u{2764}]" -> 1');
+    assert.equal(in4.toString(), '0: "[a-f0-9]" -> 1');
     assert.equal(out4.toString(), '1*: []');
 
+    // 自定义字符集
+    let { states: c5, inState: in5, outState: out5 } = getStates('[文\\u{2764}]');
+    assert.deepEqual(statesToLines(c5), [
+        '0: "[文\\u{2764}]" -> 1',
+        '1*: []'
+    ]);
+
+    assert.equal(in5.toString(), '0: "[文\\u{2764}]" -> 1');
+    assert.equal(out5.toString(), '1*: []');
+
     // "非" 字符集
-    let { complier: c5, inState: in5, outState: out5 } = getCompilerAndInOutState('[^ab]');
-    assert.deepEqual(statesToLines(c5.states), [
+    let { states: c6, inState: in6, outState: out6 } = getStates('[^ab]');
+    assert.deepEqual(statesToLines(c6), [
         '0: "[^ab]" -> 1',
         '1*: []'
     ]);
 
-    assert.equal(in5.toString(), '0: "[^ab]" -> 1');
-    assert.equal(out5.toString(), '1*: []');
+    assert.equal(in6.toString(), '0: "[^ab]" -> 1');
+    assert.equal(out6.toString(), '1*: []');
 }
 
 function testArepetition() {
     // 重复 A+
-    let { complier: c1, inState: in1, outState: out1 } = getCompilerAndInOutState('a+');
-    assert.deepEqual(statesToLines(c1.states), [
+    let { states: c1, inState: in1, outState: out1 } = getStates('a+');
+    assert.deepEqual(statesToLines(c1), [
         '0: "a" -> 1',
         '1*: ε -> 0'
     ]);
@@ -76,8 +86,8 @@ function testArepetition() {
     assert.equal(out1.index, 1);
 
     // 重复 A+?
-    let { complier: c2, inState: in2, outState: out2 } = getCompilerAndInOutState('a+?');
-    assert.deepEqual(statesToLines(c2.states), [
+    let { states: c2, inState: in2, outState: out2 } = getStates('a+?');
+    assert.deepEqual(statesToLines(c2), [
         '0: "a" -> 1',
         '1: ε -> 2, ε -> 0',
         '2*: []'
@@ -87,8 +97,8 @@ function testArepetition() {
     assert.equal(out2.index, 2);
 
     // 重复 A?
-    let { complier: c3, inState: in3, outState: out3 } = getCompilerAndInOutState('a?');
-    assert.deepEqual(statesToLines(c3.states), [
+    let { states: c3, inState: in3, outState: out3 } = getStates('a?');
+    assert.deepEqual(statesToLines(c3), [
         '0: "a" -> 1, ε -> 1',
         '1*: []'
     ]);
@@ -97,8 +107,8 @@ function testArepetition() {
     assert.equal(out3.index, 1);
 
     // 重复 A??
-    let { complier: c4, inState: in4, outState: out4 } = getCompilerAndInOutState('a??');
-    assert.deepEqual(statesToLines(c4.states), [
+    let { states: c4, inState: in4, outState: out4 } = getStates('a??');
+    assert.deepEqual(statesToLines(c4), [
         '0: "a" -> 1', // 虽然是在 inState 之前插入新的 State，但 compiler.states
         '1*: []',      // 数组中以存在的项目的顺序不变
         '2: ε -> 1, ε -> 0',
@@ -108,8 +118,8 @@ function testArepetition() {
     assert.equal(out4.index, 1);
 
     // 重复 A*
-    let { complier: c5, inState: in5, outState: out5 } = getCompilerAndInOutState('a*');
-    assert.deepEqual(statesToLines(c5.states), [
+    let { states: c5, inState: in5, outState: out5 } = getStates('a*');
+    assert.deepEqual(statesToLines(c5), [
         '0: "a" -> 1, ε -> 1',
         '1*: ε -> 0'
     ]);
@@ -118,8 +128,8 @@ function testArepetition() {
     assert.equal(out5.index, 1);
 
     // 重复 A*?
-    let { complier: c6, inState: in6, outState: out6 } = getCompilerAndInOutState('a*?');
-    assert.deepEqual(statesToLines(c6.states), [
+    let { states: c6, inState: in6, outState: out6 } = getStates('a*?');
+    assert.deepEqual(statesToLines(c6), [
         '0: "a" -> 1',
         '1: ε -> 3, ε -> 0',
         '2: ε -> 3, ε -> 0',
@@ -132,8 +142,8 @@ function testArepetition() {
 
 function testAB() {
     // 两个字符
-    let { complier: c1, inState: in1, outState: out1 } = getCompilerAndInOutState('ab');
-    assert.deepEqual(statesToLines(c1.states), [
+    let { states: c1, inState: in1, outState: out1 } = getStates('ab');
+    assert.deepEqual(statesToLines(c1), [
         '0: "a" -> 1',
         '1: ε -> 2',
         '2: "b" -> 3',
@@ -144,8 +154,8 @@ function testAB() {
     assert.equal(out1.index, 3);
 
     // 字符和字符集
-    let { complier: c2, inState: in2, outState: out2 } = getCompilerAndInOutState('a\\db');
-    assert.deepEqual(statesToLines(c2.states), [
+    let { states: c2, inState: in2, outState: out2 } = getStates('a\\db');
+    assert.deepEqual(statesToLines(c2), [
         '0: "a" -> 1',
         '1: ε -> 2',
         '2: "[0-9]" -> 3',
@@ -158,8 +168,8 @@ function testAB() {
     assert.equal(out2.index, 5);
 
     // 字符和重复
-    let { complier: c3, inState: in3, outState: out3 } = getCompilerAndInOutState('ab*c');
-    assert.deepEqual(statesToLines(c3.states), [
+    let { states: c3, inState: in3, outState: out3 } = getStates('ab*c');
+    assert.deepEqual(statesToLines(c3), [
         '0: "a" -> 1',
         '1: ε -> 2',
         '2: "b" -> 3, ε -> 3',
@@ -175,8 +185,8 @@ function testAB() {
 
 function testAorB() {
     // 两个字符
-    let { complier: c1, inState: in1, outState: out1 } = getCompilerAndInOutState('a|b');
-    assert.deepEqual(statesToLines(c1.states), [
+    let { states: c1, inState: in1, outState: out1 } = getStates('a|b');
+    assert.deepEqual(statesToLines(c1), [
         '0: "a" -> 1',
         '1: ε -> 5',
         '2: "b" -> 3',
@@ -189,8 +199,8 @@ function testAorB() {
     assert.equal(out1.index, 5);
 
     // 字符+连接+重复
-    let { complier: c2, inState: in2, outState: out2 } = getCompilerAndInOutState('a|xy|b+');
-    assert.deepEqual(statesToLines(c2.states), [
+    let { states: c2, inState: in2, outState: out2 } = getStates('a|xy|b+');
+    assert.deepEqual(statesToLines(c2), [
         '0: "a" -> 1',
         '1: ε -> 9',
         '2: "x" -> 3',
@@ -209,8 +219,8 @@ function testAorB() {
 
 function testGroup() {
     // 一个组
-    let { complier: c1, inState: in1, outState: out1 } = getCompilerAndInOutState('(a)');
-    assert.deepEqual(statesToLines(c1.states), [
+    let { states: c1, inState: in1, outState: out1 } = getStates('(a)');
+    assert.deepEqual(statesToLines(c1), [
         '0: "a" -> 1',
         '1: ε -> 3',
         '2: ε -> 0',
@@ -221,8 +231,8 @@ function testGroup() {
     assert.equal(out1.index, 3);
 
     // 一个字符 + 一个组
-    let { complier: c2, inState: in2, outState: out2 } = getCompilerAndInOutState('a(b)');
-    assert.deepEqual(statesToLines(c2.states), [
+    let { states: c2, inState: in2, outState: out2 } = getStates('a(b)');
+    assert.deepEqual(statesToLines(c2), [
         '0: "a" -> 1',
         '1: ε -> 4',
         '2: "b" -> 3',
@@ -235,8 +245,8 @@ function testGroup() {
     assert.equal(out2.index, 5);
 
     // 平行组
-    let { complier: c3, inState: in3, outState: out3 } = getCompilerAndInOutState('(a)(b)');
-    assert.deepEqual(statesToLines(c3.states), [
+    let { states: c3, inState: in3, outState: out3 } = getStates('(a)(b)');
+    assert.deepEqual(statesToLines(c3), [
         '0: "a" -> 1',
         '1: ε -> 3',
         '2: ε -> 0',
@@ -251,8 +261,8 @@ function testGroup() {
     assert.equal(out3.index, 7);
 
     // 嵌套组
-    let { complier: c4, inState: in4, outState: out4 } = getCompilerAndInOutState('(a(b)c)');
-    assert.deepEqual(statesToLines(c4.states), [
+    let { states: c4, inState: in4, outState: out4 } = getStates('(a(b)c)');
+    assert.deepEqual(statesToLines(c4), [
         '0: "a" -> 1',
         '1: ε -> 4',
         '2: "b" -> 3',
@@ -267,9 +277,45 @@ function testGroup() {
 
     assert.equal(in4.index, 8);
     assert.equal(out4.index, 9);
+
+    // 组 "或"
+    let { states: c5, inState: in5, outState: out5 } = getStates('(ab)|(xy)');
+    assert.deepEqual(statesToLines(c5), [
+        '0: "a" -> 1',
+        '1: ε -> 2',
+        '2: "b" -> 3',
+        '3: ε -> 5',
+        '4: ε -> 0',
+        '5: ε -> 13',
+        '6: "x" -> 7',
+        '7: ε -> 8',
+        '8: "y" -> 9',
+        '9: ε -> 11',
+        '10: ε -> 6',
+        '11: ε -> 13',
+        '12: ε -> 4, ε -> 10',
+        '13*: []'
+    ]);
+
+    assert.equal(in5.index, 12);
+    assert.equal(out5.index, 13);
+
+    // 组 "重复"
+    let { states: c6, inState: in6, outState: out6 } = getStates('(ab)*');
+    assert.deepEqual(statesToLines(c6), [
+        '0: "a" -> 1',
+        '1: ε -> 2',
+        '2: "b" -> 3',
+        '3: ε -> 5',
+        '4: ε -> 0, ε -> 5',
+        '5*: ε -> 4'
+    ]);
+
+    assert.equal(in6.index, 4);
+    assert.equal(out6.index, 5);
 }
 
-function getCompilerAndInOutState(expression) {
+function getStates(expression) {
     let parser = new Parser();
     let transformer = new Transformer();
     let complier = new Compiler();
@@ -278,7 +324,8 @@ function getCompilerAndInOutState(expression) {
     let nodes = transformer.transform(tree);
 
     let { inState, outState } = complier.compile(nodes);
-    return { complier, inState, outState };
+    let states = complier.states;
+    return { states, inState, outState };
 }
 
 function statesToLines(states) {

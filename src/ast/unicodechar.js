@@ -6,9 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { CodePointChar } from './codepointchar.js';
+import { Char } from './char.js';
 
-class UnicodeChar extends CodePointChar {
+class UnicodeChar extends Char {
     /**
      * 字符的 Unicode 码值
      * 范围从 U+0000 到 U+D7FF 以及从 U+E0000 到 U+10FFFF 之间
@@ -20,6 +20,8 @@ class UnicodeChar extends CodePointChar {
      */
     constructor(codePoint) {
         super(String.fromCodePoint([codePoint]), codePoint);
+
+        this.type = 'UnicodeChar';
     }
 
     toString() {

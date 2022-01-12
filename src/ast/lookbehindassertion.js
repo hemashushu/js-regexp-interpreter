@@ -15,6 +15,8 @@ import { Assertion } from "./assertion.js";
 class LookBehindAssertion extends Assertion {
     constructor(negative, exp) {
         super('lookbehind');
+
+        this.type = 'LookBehindAssertion';
         this.negative = negative;
         this.exp = exp;
     }

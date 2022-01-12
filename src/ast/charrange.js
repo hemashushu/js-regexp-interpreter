@@ -12,9 +12,10 @@
  * 字符范围对象只能用于组建 CharSet
  */
 class CharRange {
-    constructor(codePointCharStart, codePointCharEnd) {
-        this.charStart = codePointCharStart;
-        this.charEnd = codePointCharEnd;
+    constructor(charStart, charEnd) {
+        this.type = 'CharRange';
+        this.charStart = charStart;
+        this.charEnd = charEnd;
     }
 
     toString() {

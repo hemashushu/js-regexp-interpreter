@@ -13,7 +13,6 @@ import { CharSet } from './charset.js';
 import { Char } from './char.js';
 
 import { MetaChar, MetaChars, MetaCharDot } from './metachar.js';
-import { CodePointChar } from './codepointchar.js';
 
 import { SimpleChar, EntityChars } from './simplechar.js';
 import { UnicodeChar } from './unicodechar.js';
@@ -41,13 +40,12 @@ import { CharRange } from './charrange.js';
 //
 // Symbol
 //   |-- Char
-//   |     |-- CodePointChar
-//   |     |     |-- SimpleChar
-//   |     |     \-- UnicodeChar
-//   |     |
-//   |     \--  MetaChar
+//   |     |-- SimpleChar
+//   |     \-- UnicodeChar
 //   |
 //   \-- CharSet
+//
+// MetaChar
 //
 // Expression
 //   |-- AlternativeExp
@@ -67,7 +65,6 @@ export {
     Symbol,
 
     Char,
-    CodePointChar,
     SimpleChar,
     UnicodeChar,
 

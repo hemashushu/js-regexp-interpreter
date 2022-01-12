@@ -11,7 +11,7 @@ import { strict as assert } from 'assert';
 import { Builder } from '../src/builder/index.js';
 import { Transformer } from '../src/interpreter/transformer.js'
 
-function testCodePointChar() {
+function testChar() {
     let t = new Transformer();
 
     let e1 = Builder.char('a');
@@ -133,7 +133,7 @@ function testGroupExp() {
 }
 
 function testTransformer() {
-    testCodePointChar();
+    testChar();
     testMetaChar();
     testCharSet();
     testSeqExp();

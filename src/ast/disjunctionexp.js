@@ -17,6 +17,8 @@ import { Expression } from './expression.js';
 class DisjunctionExp extends Expression {
     constructor(exps) {
         super();
+
+        this.type = 'DisjunctionExp';
         this.exps = exps;
     }
 

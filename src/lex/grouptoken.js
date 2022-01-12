@@ -11,6 +11,7 @@ import { Token } from './token.js';
 class GroupToken extends Token {
     constructor(tokens) {
         super();
+        this.type = 'GroupToken';
         this.tokens = tokens;
     }
 }

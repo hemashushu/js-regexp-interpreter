@@ -15,6 +15,8 @@ import { Expression } from './expression.js';
 class RepetitionExp extends Expression {
     constructor(exp, quantifier) {
         super();
+
+        this.type = 'RepetitionExp';
         this.exp = exp;
         this.quantifier = quantifier;
     }

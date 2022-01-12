@@ -9,9 +9,10 @@
 import { Token } from './token.js';
 
 class QuantityToken extends Token {
-    constructor(type, greedy = true, from, to) {
+    constructor(kind, greedy = true, from, to) {
         super();
-        this.type = type; // ?,+,*,{m,n},{m,},{m}
+        this.type = 'QuantityToken';
+        this.kind = kind; // ?,+,*,{m,n},{m,},{m}
         this.greedy = greedy;
         this.from = from;
         this.to = to;

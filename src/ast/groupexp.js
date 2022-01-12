@@ -11,6 +11,8 @@ import { Expression } from './expression.js';
 class GroupExp extends Expression {
     constructor(exp, number, name, capturing = true) {
         super();
+        this.type = 'GroupExp';
+
         this.exp = exp;
         this.number = number; // 分组的索引
         this.name = name; // 分组的名称 `(?<name>...)`

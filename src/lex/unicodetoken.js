@@ -11,6 +11,7 @@ import { Token } from './token.js';
 class UnicodeToken extends Token {
     constructor(value) {
         super();
+        this.type = 'UnicodeToken';
         this.value = value; // unicode 的码值（code point），一个整数。
     }
 }

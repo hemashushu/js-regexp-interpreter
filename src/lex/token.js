@@ -7,7 +7,9 @@
  */
 
 class Token {
-    //
+    constructor() {
+        this.type = 'token';
+    }
 }
 
 export { Token };

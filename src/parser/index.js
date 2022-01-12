@@ -231,8 +231,8 @@ class Parser {
                 (nextToken.value === '-')) {
                 // 字符范围
                 let endToken = tokens[idx + 2];
-                let startChar = this.parseCodePointCharToken(token);
-                let endChar = this.parseCodePointCharToken(endToken);
+                let startChar = this.parseCharToken(token);
+                let endChar = this.parseCharToken(endToken);
                 chars.push(new CharRange(startChar, endChar));
 
                 idx += 2; // 跳过两个 token
@@ -243,7 +243,7 @@ class Parser {
 
             } else {
                 // 单个字符
-                chars.push(this.parseCodePointCharToken(token));
+                chars.push(this.parseCharToken(token));
             }
         }
 
@@ -255,7 +255,7 @@ class Parser {
      *
      * @param {*} token
      */
-    parseCodePointCharToken(token) {
+    parseCharToken(token) {
         if (token instanceof CharToken) {
             return new SimpleChar(token.value);
         } else if (token instanceof UnicodeToken) {
@@ -272,9 +272,9 @@ class Parser {
      * @returns
      */
     parseQuantityToken(quantityToken) {
-        // quantityToken 的 type 属性有：?,+,*,{m,n},{m,},{m}
+        // quantityToken 的 kind 属性有：?,+,*,{m,n},{m,},{m}
         let quantifier;
-        switch (quantityToken.type) {
+        switch (quantityToken.kind) {
             case '?':
                 quantifier = new OneOrZeroQuantifier(quantityToken.greedy);
                 break;
@@ -294,7 +294,7 @@ class Parser {
                 quantifier = new ManyTimesQuantifier(quantityToken.from, quantityToken.greedy);
                 break;
             default:
-                throw new Error('Unexpected quantity token type.')
+                throw new Error('Unexpected quantity token kind.')
         }
 
         return quantifier;

@@ -6,7 +6,10 @@
     "type": "module",
     "scripts": {
         "test": "node ./test/test-all.js",
-        "match": "node ./bin/index.js"
+        "token": "node ./bin/token.js",
+        "tree": "node ./bin/tree.js",
+        "table": "node ./bin/table.js",
+        "match": "node ./bin/match.js"
     },
     "repository": {
         "type": "git",

@@ -16,11 +16,8 @@ class SymbolTransition extends Transition {
         //
         // Symbol
         //   |-- Char
-        //   |     |-- CodePointChar
-        //   |     |     |-- SimpleChar
-        //   |     |     \-- UnicodeChar
-        //   |     |
-        //   |     \--  MetaChar
+        //   |     |-- SimpleChar
+        //   |     \-- UnicodeChar
         //   |
         //   \-- CharSet
 

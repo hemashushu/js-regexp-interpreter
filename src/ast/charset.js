@@ -17,6 +17,7 @@ import { SimpleChar } from './simplechar.js';
 class CharSet extends Symbol {
     constructor(chars = [], negative = false) {
         super();
+        this.type = 'CharSet';
         this.chars = chars;
         this.negative = negative; // 表示 [^...]
     }

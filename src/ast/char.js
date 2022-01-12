@@ -13,8 +13,24 @@ import { Symbol } from './symbol.js';
  * 比如 /a/
  */
 class Char extends Symbol {
-    constructor() {
+    /**
+     *
+     * @param {*} value 字符
+     * @param {*} codePoint 字符的 Unicode 码值
+     */
+    constructor(value, codePoint) {
         super();
+        this.type = 'Char';
+        this.value = value;
+        this.codePoint = codePoint;
+    }
+
+    toString() {
+        return this.value;
+    }
+
+    includes(codePoint) {
+        return this.codePoint === codePoint;
     }
 }
 
