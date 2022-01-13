@@ -1,4 +1,4 @@
-# JS-Regex
+# JS Regexp Interpreter
 
 尝试实现一个极其简陋的正则表达式解析器（interpreter）。
 

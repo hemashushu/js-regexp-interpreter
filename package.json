@@ -1,5 +1,5 @@
 {
-    "name": "js-regex",
+    "name": "js-regexp-interpreter",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -13,12 +13,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/hemashushu/js-regex.git"
+        "url": "git+https://github.com/hemashushu/js-regexp-interpreter.git"
     },
     "author": "Hemashushu <hippospark@gmail.com>",
     "license": "MPL-2.0",
     "bugs": {
-        "url": "https://github.com/hemashushu/js-regex/issues"
+        "url": "https://github.com/hemashushu/js-regexp-interpreter/issues"
     },
-    "homepage": "https://github.com/hemashushu/js-regex#readme"
+    "homepage": "https://github.com/hemashushu/js-regexp-interpreter#readme"
 }
