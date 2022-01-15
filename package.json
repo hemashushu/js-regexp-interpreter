@@ -11,6 +11,9 @@
         "table": "node ./bin/table.js",
         "match": "node ./bin/match.js"
     },
+    "bin": {
+        "js-regexp-match": "./cli.js"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/hemashushu/js-regexp-interpreter.git"
