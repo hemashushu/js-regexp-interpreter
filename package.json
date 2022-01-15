@@ -1,6 +1,6 @@
 {
     "name": "js-regexp-interpreter",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "",
     "main": "index.js",
     "type": "module",
@@ -19,6 +19,14 @@
         "url": "git+https://github.com/hemashushu/js-regexp-interpreter.git"
     },
     "author": "Hemashushu <hippospark@gmail.com>",
+    "keywords": [
+        "regex",
+        "regexp",
+        "regular expression",
+        "lex",
+        "parser",
+        "interpreter"
+    ],
     "license": "MPL-2.0",
     "bugs": {
         "url": "https://github.com/hemashushu/js-regexp-interpreter/issues"
