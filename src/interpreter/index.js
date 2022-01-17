@@ -53,13 +53,16 @@ class Matcher {
      */
     static test(expStr, testStr) {
         let { inState } = Matcher.compile(expStr);
+        return Matcher.matchString(inState, testStr);
+    }
 
+    static matchString(state, testStr) {
         let testChars = [];
         for (const c of testStr) {
             testChars.push(c);
         }
 
-        return Matcher.match(inState, testChars, 0);
+        return Matcher.match(state, testChars);
     }
 
     /**
@@ -74,7 +77,7 @@ class Matcher {
      * @param {*} nodes
      * @returns
      */
-    static match(state, testChars, idx, nodes = []) {
+    static match(state, testChars, idx = 0, nodes = []) {
 
         // nodes 记录 match() 方法经历过的 State，是访问途经
         // 的轨迹记录，如果一个 State 已经在轨迹上，说明 match()
