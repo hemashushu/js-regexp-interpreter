@@ -11,16 +11,16 @@ import { Matcher } from '../src/interpreter/index.js';
 let args = process.argv;
 
 if (args.length === 3) {
-    printStateTable(args[2]);
+    printStates(args[2]);
 
 } else {
     console.log('usage:\n\
-    npm run table "expression_string"\n\
+    npm run state "expression_string"\n\
     ');
     process.exit();
 }
 
-function printStateTable(expStr) {
+function printStates(expStr) {
     console.log(`Expression: "${expStr}"`);
     console.log('='.repeat(20));
 

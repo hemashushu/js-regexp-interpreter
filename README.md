@@ -35,7 +35,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expression
 
 将正则表达式字符串符号化：
 
-`$ npm run token "0|(u[a-f\d]+)"`
+`$ npm run lex "0|(u[a-f\d]+)"`
 
 输出结果：
 
@@ -94,7 +94,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expression
 
 生成正则表达式对应的语法树：
 
-`$ npm run tree "0|(u[a-f\d]+)"`
+`$ npm run ast "0|(u[a-f\d]+)"`
 
 结果：
 
@@ -159,7 +159,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expression
 
 生成正则表达式对应的 `有限自动机` 的状态以及 `NFA` 结构：
 
-`$ npm run table "0|(u[a-f\d])+"`
+`$ npm run state "0|(u[a-f\d])+"`
 
 结果：
 

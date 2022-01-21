@@ -6,25 +6,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { Matcher } from '../src/interpreter/index.js';
+import { Lex } from '../src/lex/index.js';
 
 let args = process.argv;
 
 if (args.length === 3) {
-    printTree(args[2]);
+    printTokens(args[2]);
 
 } else {
     console.log('usage:\n\
-    npm run tree "expression_string"\n\
+    npm run lex "expression_string"\n\
     ');
     process.exit();
 }
 
-function printTree(expStr) {
+function printTokens(expStr) {
     console.log(`Expression: "${expStr}"`);
     console.log('='.repeat(20));
 
-    let tree = Matcher.parse(expStr);
+    let chars = [];
+    for (const c of expStr) {
+        chars.push(c);
+    }
 
-    console.log(JSON.stringify(tree, undefined, 4));
+    let lex = new Lex();
+    let tokens = lex.lexChars(chars);
+
+    console.log(JSON.stringify(tokens, undefined, 4));
 }

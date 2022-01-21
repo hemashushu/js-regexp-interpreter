@@ -16,6 +16,8 @@ import {
 
 import { Refactor } from '../src/parser/refactor.js';
 
+// TODO:: 挪到 test-parser.js
+
 function testFoldTokens() {
     let lex = new Lex();
     let refactor = new Refactor();

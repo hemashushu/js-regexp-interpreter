@@ -153,4 +153,4 @@ class Matcher {
     }
 }
 
-export { Matcher };
+export { Matcher, Compiler };

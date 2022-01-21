@@ -37,11 +37,11 @@ class Lex {
      * 1. 将字符解析为：
      *    - 普通字符符号 `CharToken`；
      *    - Unicode 字符符号 `UnicodeToken`；
-     *    - 实体符号 `EntityToken`；
-     *    - 元符号 `MetaToken`。
+     *    - 实体符号 `EntityToken`； (::TODO:: 挪到 Parser)
+     *    - 元符号 `MetaToken`。 (::TODO:: 挪到 Parser)
      *
-     * 2. 将字符集解析为字符集符号 CharSetToken
-     * 3. 将重复数量解析为数量符号 QuantityToken
+     * 2. 将字符集解析为字符集符号 CharSetToken (::TODO:: 挪到 Parser)
+     * 3. 将重复数量解析为数量符号 QuantityToken (::TODO:: 挪到 Parser)
      *
      * @param {*} chars Unicode 字符数组
      */
@@ -107,7 +107,7 @@ class Lex {
                     }
                 }
 
-            } else if (['(', ')', '|'] // '^', '$' 还未支持
+            } else if (['(', ')', '|'] // 实体字符当中的 '^', '$' 还未支持
                 .includes(char)) {                       // 当前是实体字符
                 tokens.push(new EntityToken(char));
 

@@ -23,7 +23,6 @@ function testChar() {
     let lex = new Lex();
 
     // 普通字符
-
     let t1 = lex.lexChars(stringToCharArray('abc你好'));
     assert.deepEqual(t1, [
         new CharToken('a'),
@@ -34,7 +33,6 @@ function testChar() {
     ]);
 
     // 编码字符
-
     let t2 = lex.lexChars(stringToCharArray('\\(\\*'));
     assert.deepEqual(t2, [
         new CharToken('('),
@@ -42,7 +40,6 @@ function testChar() {
     ]);
 
     // unicode 字符
-
     let t3 = lex.lexChars(stringToCharArray('\\u{4e2d}\\u{6587}\\u{0200D3}'));
     assert.deepEqual(t3, [
         new UnicodeToken(0x4e2d),
@@ -73,7 +70,6 @@ function testCharSet() {
     let lex = new Lex();
 
     // 普通字符
-
     let t1 = lex.lexChars(stringToCharArray('a[01]b'));
     assert.deepEqual(t1, [
         new CharToken('a'),
@@ -85,7 +81,6 @@ function testCharSet() {
     ]);
 
     // 编码字符
-
     let t2 = lex.lexChars(stringToCharArray('[-*+?.{}()[\\]\\-^$|\\\\]'));
     assert.deepEqual(t2, [
         new CharSetToken([
@@ -109,7 +104,6 @@ function testCharSet() {
     ]);
 
     // unicode 字符
-
     let t3 = lex.lexChars(stringToCharArray('[\\u{4e2d}\\u{6587}\\u{0200D3}]'));
     assert.deepEqual(t3, [
         new CharSetToken([

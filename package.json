@@ -6,9 +6,9 @@
     "type": "module",
     "scripts": {
         "test": "node ./test/test-all.js",
-        "token": "node ./bin/token.js",
-        "tree": "node ./bin/tree.js",
-        "table": "node ./bin/table.js",
+        "lex": "node ./bin/lex.js",
+        "ast": "node ./bin/ast.js",
+        "state": "node ./bin/state.js",
         "match": "node ./bin/match.js"
     },
     "bin": {
