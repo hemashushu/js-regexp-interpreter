@@ -157,7 +157,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expression
 
 ### 生成有限自动机的状态
 
-生成正则表达式对应的 `有限自动机` 的状态以及 `NFA` 结构：
+生成正则表达式对应的 `非确定有限自动机` （`NFA`）的状态：
 
 `$ npm run state "0|(u[a-f\d])+"`
 
