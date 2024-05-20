@@ -218,6 +218,16 @@ out state: 9
 
 `$ npm exec js-regexp-match "a*" "aaa"`
 
+## 安装 CLI 程序
+
+首先安装本项目到全局：
+
+`$ sudo npm install -g js-regexp-interpreter`
+
+然后就可以在任意文件路径下使用命令 `js-regexp-match`，比如：
+
+`$ js-regexp-match "a*" "aaa"`
+
 ### API
 
 本项目（包、package）提供了 3 个常用的方法：

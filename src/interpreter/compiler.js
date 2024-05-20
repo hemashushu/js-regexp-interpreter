@@ -120,6 +120,11 @@ class Compiler {
     }
 
     generateSymbolStates(node) {
+        // symbol state pair
+        //
+        //   in               out
+        // [ | ]---(char)--->[ | ]
+
         let inState = this.newStateObject();
         let outState = this.newStateObject(true);
         inState.addSymbolTransition(node, outState);
@@ -136,6 +141,12 @@ class Compiler {
             // 重复 + 次
             if (quantifier.greedy) {
                 // 从 outState 添加一个 ε 转换到 inState
+                //
+                //        /----(emp)-----\
+                //        |              v
+                //       in             out
+                // #--->[ | ]---(x)--->[ | ]---*
+
                 outState.addEpsilonTransition(inState);
 
             } else {
@@ -144,6 +155,12 @@ class Compiler {
                 // 3. 为 outState 添加一个 ε 转换到 inState
                 // 4. 设置 outState 的 accept 为 false
                 // 5. 将 outState' 作为新的 out state
+                //
+                //       /-------(emp)------\
+                //       v                  |
+                //       in                out              out'
+                // #--->[ | ]---(char)--->[ | ]---(emp)--->[ | ]--->*
+
                 let outState2 = this.newStateObject(true);
                 outState.addEpsilonTransition(outState2);
                 outState.addEpsilonTransition(inState);
@@ -156,6 +173,11 @@ class Compiler {
             // 重复 ? 次
             if (quantifier.greedy) {
                 // 从 inState 添加一个 ε 到 outState
+                //
+                //       in               out
+                // #--->[ | ]---(x)--->[ | ]---*
+                //        v              ^
+                //        \-----(emp)----/
                 inState.addEpsilonTransition(outState);
 
             } else {
@@ -163,6 +185,12 @@ class Compiler {
                 // 2. 为 inState' 添加一个 ε 转换到 outState
                 // 3. 为 inState' 添加一个 ε 转换到 inState
                 // 4. 将 inState' 作为新的 in state
+                //
+                //       in'               in            out
+                // #--->[ | ]---(emp)--->[ | ]---(?)--->[ | ]--->*
+                //        v                              ^
+                //        \-----(emp)--------------------/
+
                 let inState2 = this.newStateObject();
                 inState2.addEpsilonTransition(outState);
                 inState2.addEpsilonTransition(inState);
@@ -174,6 +202,13 @@ class Compiler {
             if (quantifier.greedy) {
                 // 1. 为 inState 添加一个 ε 转换到 outState
                 // 2. 为 outState 添加一个 ε 转换到 inState
+                //
+                //
+                //       in               out
+                // #--->[ | ]---(x)--->[ | ]---*
+                //        v              ^
+                //        \-----(emp)----/
+
                 inState.addEpsilonTransition(outState);
                 outState.addEpsilonTransition(inState);
 
@@ -187,6 +222,14 @@ class Compiler {
                 // 7. 设置 outState 的 accept 为 false
                 // 8. 将 inState' 作为新的 in state
                 // 9. 将 outState' 作为新的 out state
+                //
+                //
+                //                         /--------------------(emp)-----\
+                //                         |                              v
+                //       in'              in             out              out'
+                // #--->[ | ]---(emp)--->[ | ]---(x)--->[ | ]---(emp)--->[ | ]---*
+                //        ^                                |
+                //        \-----(emp)----------------------/
 
                 let inState2 = this.newStateObject();
                 let outState2 = this.newStateObject(true);
@@ -227,6 +270,13 @@ class Compiler {
 
         // 将前一对 State 的 outState 和下一对 State 的 inState
         // 通过 EpsilonTransition 串联起来
+        //
+        //                         /----(emp)----\
+        //                         |             v
+        //       in               out            in              out
+        // #--->[ | ]---(emp)--->[ | ]         [ | ]---(emp)--->[ | ]---*
+        //
+
         for (let idx = 1; idx < statePairs.length; idx++) {
             let previousOutState = statePairs[idx - 1].outState;
             let nextInState = statePairs[idx].inState;
@@ -254,6 +304,14 @@ class Compiler {
         // 5. 设置 statePairs 里的每一个 outState 的 accept 为 false
         // 6. 将 inState' 作为新的 in state
         // 7. 将 outState' 作为新的 out state
+        //
+        //             (emp)  in1            out1
+        //              /--> [ | ]---(x)--->[ | ]--\ (emp)
+        //        in'   |                          |     out'
+        // #--->[ | ]---|                          |--->[ | ]---*
+        //              |     in2            out2  |
+        //              \--> [ | ]---(x)--->[ | ]--/ (emp)
+        //             (emp)
 
         let inState2 = this.newStateObject();
         let outState2 = this.newStateObject(true);
@@ -280,6 +338,10 @@ class Compiler {
         // 5. 设置 outState 的 accept 为 false
         // 6. 将 inState' 作为新的 in state
         // 7. 将 outState' 作为新的 out state
+        //
+        //
+        //       in'              in             out              out'
+        // #--->[ | ]---(emp)--->[ | ]---(x)--->[ | ]---(emp)--->[ | ]---*
 
         let exp = node.exp;
         let { inState, outState } = this.generate(exp);
